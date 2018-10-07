@@ -1,0 +1,36 @@
+{
+	"site": {
+		"name": "Example Site",
+		"owner": "Some Dude",
+		"url": "https://mysite.com",
+		"home_url": "https://mysite.com/index.html",
+		"copyright": "© 2018 {{owner}}"
+	},
+	"navigation": [{
+		"name": "Home",
+		"url": "{site.url}/index.html"
+	},
+	{
+		"name": "Blog",
+		"url": "{site.url}/blog.html"
+	}],
+	"page": {
+		"title": "{{site.name}} - Blog",
+		"layout": "paginated",
+		"url": "/blog"
+	},
+	"article": {
+		"name": "So Long, and Thanks for the Templates",
+		"description": "A brief example of the templated site for busy people in 2018.",
+		"date": "7 October, 2018",
+		"content": [
+			"Every item in this array is a paragraph with HTML, as converted from Markdown.",
+			"Theodore Sturgeon was a science fiction author, critic, and the basis for Kurt Vonnegut's recurring character Kilgore Trout. He was prolific, authoring over 200 pieces himself and critiquing around 400 others.",
+			"Test much, eh?",
+			"I repeat Sturgeon's Revelation, which was wrung out of me after twenty years of wearying defense of science fiction against attacks of people who used the worst examples of the field for ammunition, and whose conclusion was that ninety percent of SF is crud. Using the same standards that categorize 90% of science fiction as trash, crud, or crap, it can be argued that 90% of film, literature, consumer goods, etc. is crap. In other words, the claim (or fact) that 90% of science fiction is crap is ultimately uninformative, because science fiction conforms to the same trends of quality as all other artforms."
+		]
+	},
+	"theme": {
+		"color": "green"
+	}
+}

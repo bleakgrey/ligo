@@ -1,0 +1,18 @@
+<article>
+    <header class="bg-{{theme.color}} white sans-serif">
+    <div class="mw9 center pa4 pt5-ns ph7-l">
+        <h5 class="f6 ttu tracked">{{article.date}}</h5>
+        <h3 class="f2 f1-m f-headline-l measure-narrow lh-title mv0">
+            <span class="bg-white lh-copy {{theme.color}} pa1 tracked-tight">{{article.name}}</span>
+        </h3>
+        <h4 class="f3 fw1 georgia i">{{article.description}}</h4>
+    </div>
+    </header>
+    <div class="pa4 ph7-l georgia mw9-l center">
+        {{#article.content}}
+        <p class="f5 f3-ns lh-copy measure georgia">
+            {{.}}
+        </p>
+        {{/article.content}}
+    </div>
+</article>
