@@ -4,10 +4,9 @@ using Granite;
 namespace Desidia {
     
     public static Application app;
+    public static Windows.Main? main_window;
     
     public class Application : Granite.Application {
-    
-        public static Gtk.Window main_window;
     
         construct {
             application_id = "com.github.bleakgrey.desidia";
@@ -26,6 +25,7 @@ namespace Desidia {
         protected override void activate () {
             main_window = new Windows.Main (this);
             main_window.present ();
+            main_window.reopen_tabs ();
         }
     
     }

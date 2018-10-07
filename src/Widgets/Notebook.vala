@@ -11,12 +11,6 @@ public class Desidia.Widgets.Notebook : Granite.Widgets.DynamicNotebook {
 		get_style_context ().add_class (Gtk.STYLE_CLASS_INLINE_TOOLBAR);
 	}
 	
-	public Notebook () {
-		var tab = new Granite.Widgets.Tab ();
-		tab.label = "Home";
-		var label = new Widgets.EditorView ();//new Label ("TEST");
-		tab.page = label;
-		insert_tab (tab, 0);
-	}
+	public Notebook () {}
 	
 }

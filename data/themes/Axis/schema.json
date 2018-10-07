@@ -4,7 +4,7 @@
 		"owner": "Some Dude",
 		"url": "https://mysite.com",
 		"home_url": "https://mysite.com/index.html",
-		"copyright": "© 2018 {{owner}}"
+		"copyright": "© 2018 {{site.owner}}"
 	},
 	"navigation": [{
 		"name": "Home",
@@ -16,8 +16,7 @@
 	}],
 	"page": {
 		"title": "{{site.name}} - Blog",
-		"layout": "paginated",
-		"url": "/blog"
+		"url": "{{site.url}}/blog"
 	},
 	"article": {
 		"name": "So Long, and Thanks for the Templates",
@@ -31,6 +30,6 @@
 		]
 	},
 	"theme": {
-		"color": "green"
+		"color": "blue"
 	}
 }

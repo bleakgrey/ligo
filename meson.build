@@ -28,8 +28,12 @@ executable(
     'src/Project.vala',
     'src/Widgets/HeaderBar.vala',
     'src/Widgets/Sidebar.vala',
+    'src/Widgets/StatusBar.vala',
     'src/Widgets/Notebook.vala',
-    'src/Widgets/EditorView.vala',
+    'src/Widgets/SourceView.vala',
+    'src/Widgets/Tabs/AbstractTab.vala',
+    'src/Widgets/Tabs/PageEditor.vala',
+    'src/Widgets/Tabs/PageList.vala',
     'src/Windows/Main.vala',
     dependencies: [
         dependency('gtk+-3.0'),
