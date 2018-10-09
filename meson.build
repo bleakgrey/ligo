@@ -34,8 +34,10 @@ executable(
     'src/Widgets/Notebook.vala',
     'src/Widgets/SourceView.vala',
     'src/Widgets/Tabs/AbstractTab.vala',
+    'src/Widgets/Tabs/Startup.vala',
     'src/Widgets/Tabs/PageEditor.vala',
     'src/Widgets/Tabs/PageList.vala',
+    'src/Windows/NewPage.vala',
     'src/Windows/Main.vala',
     dependencies: [
         dependency('gtk+-3.0'),

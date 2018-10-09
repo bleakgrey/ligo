@@ -29,14 +29,16 @@ public class Desidia.Project : GLib.Object {
 		// Load pages
 		var pages_array = root.get_array_member ("pages");
 		pages_array.foreach_element ((array, i, node) => {
-			var page_name = node.get_string ();
-			var page_path = Path.build_filename (path, "pages", page_name + ".json");
-			opened.load_page (page_path);
+			var page_id = node.get_string ();
+			var page_path = Path.build_filename (path, "pages", page_id + ".json");
+			opened.load_page (page_path, page_id);
 		});
 		info ("Loaded %i pages", opened.pages.size);
+		
+		main_window.notebook.open_startup ();
 	}
 	
-	private void load_page (string path) {
+	private void load_page (string path, string id) {
 		info ("Loading page: %s", path);
 		var contents = IO.read_file (path);
 		var parser = new Json.Parser ();
@@ -46,6 +48,7 @@ public class Desidia.Project : GLib.Object {
 		if (page == null)
 			warning ("Can't read page: %s", path);
 		else {
+			page.url = id;
 			pages.add (page);
 			main_window.sidebar.add_page (page);
 		}

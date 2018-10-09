@@ -24,8 +24,7 @@ namespace Desidia {
         protected override void activate () {
             main_window = new Windows.Main (this);
             main_window.present ();
-            main_window.reopen_tabs ();
-            
+			
             Project.open_from_path ("/home/blue/Documents/Sites/Example");
         }
     

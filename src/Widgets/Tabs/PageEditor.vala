@@ -22,6 +22,7 @@ public class Desidia.Widgets.Tabs.PageEditor : AbstractTab {
 	
 	public override void on_switched () {
 		on_content_changed ();
+		main_window.status_bar.show ();
 	}
 	
 	public void on_content_changed () {
@@ -33,7 +34,10 @@ public class Desidia.Widgets.Tabs.PageEditor : AbstractTab {
 			var words = result.strip().split(" ").length;
 			var read_time = words / 275; // Average words per minute
 			
-			main_window.status_bar.info.label = _("%i words (%i min read)").printf (words, read_time);
+			if (read_time <= 0)
+				main_window.status_bar.info.label = _("%i words").printf (words);
+			else
+				main_window.status_bar.info.label = _("%i words (%i min read)").printf (words, read_time);
 		}
 		catch (Error e) {
 			// Who cares?

@@ -44,6 +44,9 @@ namespace Desidia.Pages {
 				break;
 		}
 		
+		page.url = root.get_string_member ("url");
+		page.name = root.get_string_member ("name");
+		
 		return page;
 	}
 	

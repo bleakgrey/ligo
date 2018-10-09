@@ -37,12 +37,5 @@ public class Desidia.Windows.Main: Gtk.Window {
 		icon_name = "com.github.bleakgrey.desidia";
 		resizable = true;
 	}
-	
-	public void reopen_tabs () {
-		// var tab = new Widgets.Tabs.PageEditor ();
-		// notebook.insert_tab (tab, -1);
-		// var tab2 = new Widgets.Tabs.PageList ();
-		// notebook.insert_tab (tab2, -1);
-	}
 
 }
