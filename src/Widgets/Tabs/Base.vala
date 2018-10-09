@@ -1,13 +1,13 @@
 using Gtk;
 using Granite;
 
-public class Desidia.Widgets.Tabs.AbstractTab : Granite.Widgets.Tab {
+public class Desidia.Widgets.Tabs.Base : Granite.Widgets.Tab {
 	
 	public Gtk.ScrolledWindow scroller;
 	public bool has_status_bar;
 	public bool configurable;
 	
-	public AbstractTab () {
+	public Base () {
 		base ();
 		has_status_bar = true;
 		configurable = false;
@@ -19,8 +19,6 @@ public class Desidia.Widgets.Tabs.AbstractTab : Granite.Widgets.Tab {
 		return false;
 	}
 	
-	public virtual void on_switched () {
-		
-	}
+	public virtual void on_switched () {}
 	
 }

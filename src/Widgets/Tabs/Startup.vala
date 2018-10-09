@@ -1,7 +1,7 @@
 using Gtk;
 using Granite;
 
-public class Desidia.Widgets.Tabs.Startup : AbstractTab {
+public class Desidia.Widgets.Tabs.Startup : Base {
 
 	public Granite.Widgets.Welcome welcome;
 

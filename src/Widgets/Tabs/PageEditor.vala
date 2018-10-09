@@ -1,7 +1,7 @@
 using Gtk;
 using Granite;
 
-public class Desidia.Widgets.Tabs.PageEditor : AbstractTab {
+public class Desidia.Widgets.Tabs.PageEditor : Base {
 	
 	public Widgets.SourceView editor;
 	protected Pages.Base my_page;
@@ -22,7 +22,10 @@ public class Desidia.Widgets.Tabs.PageEditor : AbstractTab {
 	
 	public override void on_switched () {
 		on_content_changed ();
-		main_window.status_bar.show ();
+		var status_bar = main_window.status_bar;
+		status_bar.show ();
+		status_bar.page_settings_button.show ();
+		status_bar.add_page_button.hide ();
 	}
 	
 	public void on_content_changed () {
@@ -32,7 +35,7 @@ public class Desidia.Widgets.Tabs.PageEditor : AbstractTab {
 			string result = reg.replace (text, text.length, 0, " ");
 			
 			var words = result.strip().split(" ").length;
-			var read_time = words / 275; // Average words per minute
+			var read_time = words / 250;
 			
 			if (read_time <= 0)
 				main_window.status_bar.info.label = _("%i words").printf (words);

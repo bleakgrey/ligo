@@ -10,7 +10,7 @@ public class Desidia.Pages.Base : GLib.Object {
 		url = "unnamed";
 	}
 	
-	public virtual Widgets.Tabs.AbstractTab? create_tab () {
+	public virtual Widgets.Tabs.Base? create_tab () {
 		return new Widgets.Tabs.PageEditor (this);
 	}
 	
@@ -36,8 +36,8 @@ namespace Desidia.Pages {
 		
 		var type = root.get_string_member ("type");
 		switch (type) {
-			case "paginated":
-				page = new Pages.Paginated ();
+			case "blog":
+				page = new Pages.Blog ();
 				break;
 			default:
 				page = new Pages.Base ();

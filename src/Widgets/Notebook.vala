@@ -38,7 +38,7 @@ public class Desidia.Widgets.Notebook : Granite.Widgets.DynamicNotebook {
 	}
 	
 	private void on_tab_switched (Granite.Widgets.Tab? old, Granite.Widgets.Tab current) {
-		var custom_tab = current as Widgets.Tabs.AbstractTab;
+		var custom_tab = current as Widgets.Tabs.Base;
 		custom_tab.on_switched ();
 	}
 	
@@ -50,16 +50,18 @@ public class Desidia.Widgets.Notebook : Granite.Widgets.DynamicNotebook {
 	public void open_page (Pages.Base page) {
 		var i = -1;
 		tabs.@foreach (tab => {
-			var custom_tab = (Widgets.Tabs.AbstractTab) tab;
+			var custom_tab = (Widgets.Tabs.Base) tab;
 			if (custom_tab.is_page_owner (page)) {
 				i = get_tab_position (tab);
 			}
 		});
 		
-		if (i < 0)
-			insert_tab (page.create_tab (), -1);
-		else
-			(get_child () as Gtk.Notebook).set_current_page (i); // Setting "current" param throws error
+		if (i < 0) {
+			var tab = page.create_tab ();
+			insert_tab (tab, -1);
+			i = get_tab_position (tab);
+		}
+		(get_child () as Gtk.Notebook).set_current_page (i);
 		
 		close_startup ();
 	}
