@@ -17,7 +17,6 @@ namespace Desidia {
     
         public static int main (string[] args) {
             Gtk.init (ref args);
-            Granite.Services.Logger.DisplayLevel = Granite.Services.LogLevel.INFO;
             app = new Application ();
             return app.run (args);
         }
@@ -26,6 +25,8 @@ namespace Desidia {
             main_window = new Windows.Main (this);
             main_window.present ();
             main_window.reopen_tabs ();
+            
+            Project.open_from_path ("/home/blue/Documents/Sites/Example");
         }
     
     }

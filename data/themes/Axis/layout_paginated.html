@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{page.title}}</title>
+    {{> dependencies}}
+</head>
+<body>
+    {{> header}}
+    
+    {{#pagination.items}}
+    {{> paginated_article}}
+    {{/pagination.items}}
+    
+    {{> footer}}
+</body>
+</html>

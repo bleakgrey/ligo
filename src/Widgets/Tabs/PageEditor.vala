@@ -4,17 +4,23 @@ using Granite;
 public class Desidia.Widgets.Tabs.PageEditor : AbstractTab {
 	
 	public Widgets.SourceView editor;
+	protected Pages.Base my_page;
 	
 	construct {
 		editor = new Widgets.SourceView ();
 		editor.source_buffer.changed.connect (on_content_changed);
 	}
 	
-	public PageEditor () {
+	public PageEditor (Pages.Base page) {
 		base ();
-		label = "Page Editor";
+		my_page = page;
+		label = my_page.name;
 		scroller.add (editor);
 		scroller.show_all ();
+		on_content_changed ();
+	}
+	
+	public override void on_switched () {
 		on_content_changed ();
 	}
 	
@@ -32,6 +38,10 @@ public class Desidia.Widgets.Tabs.PageEditor : AbstractTab {
 		catch (Error e) {
 			// Who cares?
 		}
+	}
+
+	public override bool is_page_owner (Pages.Base page) {
+		return this.my_page == page;
 	}
 	
 }

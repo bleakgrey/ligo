@@ -15,4 +15,12 @@ public class Desidia.Widgets.Tabs.AbstractTab : Granite.Widgets.Tab {
 		page = scroller;
 	}
 	
+	public virtual bool is_page_owner (Pages.Base page) {
+		return false;
+	}
+	
+	public virtual void on_switched () {
+		
+	}
+	
 }

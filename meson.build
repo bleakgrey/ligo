@@ -23,8 +23,10 @@ add_project_arguments(['--vapidir', join_paths(meson.current_source_dir(), 'vapi
 executable(
     meson.project_name(),
     # asresources,
+    'src/IO.vala',
     'src/Application.vala',
-    'src/Page.vala',
+    'src/Pages/Base.vala',
+    'src/Pages/Paginated.vala',
     'src/Project.vala',
     'src/Widgets/HeaderBar.vala',
     'src/Widgets/Sidebar.vala',
@@ -38,9 +40,10 @@ executable(
     dependencies: [
         dependency('gtk+-3.0'),
         dependency('glib-2.0', version: '>=2.30.0'),
-        dependency('granite'),
+        dependency('gee-0.8', version: '>=0.8.5'),
         dependency('json-glib-1.0'),
         dependency('gtksourceview-3.0', version: '>=3.24'),
+        dependency('granite'),
         libmarkdown,
     ],
     vala_args: [
