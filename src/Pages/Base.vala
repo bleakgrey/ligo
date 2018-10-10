@@ -2,8 +2,9 @@ using GLib;
 
 public class Desidia.Pages.Base : GLib.Object {
 	
-	public string path {get; set;}
+	public const string TYPE = "basic";
 	
+	public string path {get; set;}
 	public string name {get; set;}
 	public string url {get; set;}
 	public string? content {get; set;}
@@ -21,12 +22,8 @@ public class Desidia.Pages.Base : GLib.Object {
 		return ""; //app.current_project.get_full_url () + "/" + this.url;
 	}
 	
-	public string get_save_path () {
-		return Path.build_filename (path, "pages", url + ".json");
-	}
-	
 	public string render_html () {
-		// var markdown = new Markdown.Document.gfm_format (source_buffer.text.data);
+		// var markdown = new Markdown.Document.gfm_format (content.data);
 		// markdown.compile ();
 		// string result;
 		// markdown.get_document (out result);
@@ -35,7 +32,34 @@ public class Desidia.Pages.Base : GLib.Object {
 	}
 	
 	public void save () {
+		var file = File.new_for_path (path);
+		if (file.query_exists ())
+			file.@delete ();
 		
+		var builder = new Json.Builder ();
+		builder.begin_object ();
+		builder.set_member_name ("version");
+		builder.add_int_value (1);
+		builder.set_member_name ("type");
+		builder.add_string_value (TYPE);
+		builder.set_member_name ("name");
+		builder.add_string_value (name);
+		builder.set_member_name ("url");
+		builder.add_string_value (url);
+		write_save_data (builder);
+		builder.end_object ();
+		
+		var generator = new Json.Generator ();
+		generator.set_root (builder.get_root ());
+		var data = generator.to_data (null);
+		
+		FileOutputStream stream = file.create (FileCreateFlags.PRIVATE);
+		stream.write (data.data);
+	}
+	
+	public virtual void write_save_data (Json.Builder builder) {
+		builder.set_member_name ("content");
+		builder.add_string_value (content);
 	}
 	
 }
@@ -47,7 +71,7 @@ namespace Desidia.Pages {
 		
 		var type = root.get_string_member ("type");
 		switch (type) {
-			case "blog":
+			case Pages.Blog.TYPE:
 				page = new Pages.Blog ();
 				break;
 			default:

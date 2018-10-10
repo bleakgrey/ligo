@@ -20,6 +20,10 @@ public class Desidia.Widgets.Notebook : Granite.Widgets.DynamicNotebook {
 		base ();
 	}
 	
+	public Widgets.Tabs.Base? get_opened () {
+		return (Widgets.Tabs.Base) current;
+	}
+	
 	public void open_startup () {
 		if (startup_tab == null) {
 			startup_tab = new Widgets.Tabs.Startup ();

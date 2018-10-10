@@ -49,6 +49,7 @@ public class Desidia.Project : GLib.Object {
 			warning ("Can't read page: %s", path);
 		else {
 			page.url = id;
+			page.path = path;
 			pages.add (page);
 			main_window.sidebar.add_page (page);
 		}
