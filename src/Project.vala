@@ -26,6 +26,10 @@ public class Ligo.Project : GLib.Object {
 		parser.load_from_data (manifest, -1);
 		var root = parser.get_root ().get_object ();
 		
+		// General info
+		// opened.name = root.get_string_member ("name");
+		// opened.description = root.get_string_member ("description");
+		
 		// Load pages
 		var pages_array = root.get_array_member ("pages");
 		pages_array.foreach_element ((array, i, node) => {

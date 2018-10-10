@@ -8,10 +8,13 @@ public class Ligo.Pages.Base : GLib.Object {
 	public string name {get; set;}
 	public string url {get; set;}
 	public string? content {get; set;}
+	public bool show_in_navigation {get; set;}
 	
 	public Base () {
 		name = _("Unnamed Page");
 		url = "unnamed";
+		content = "";
+		show_in_navigation = true;
 	}
 	
 	public virtual Widgets.Tabs.Base? create_tab () {
@@ -22,7 +25,7 @@ public class Ligo.Pages.Base : GLib.Object {
 		return ""; //app.current_project.get_full_url () + "/" + this.url;
 	}
 	
-	public string render_html () {
+	public string render () {
 		// var markdown = new Markdown.Document.gfm_format (content.data);
 		// markdown.compile ();
 		// string result;
@@ -32,10 +35,6 @@ public class Ligo.Pages.Base : GLib.Object {
 	}
 	
 	public void save () {
-		var file = File.new_for_path (path);
-		if (file.query_exists ())
-			file.@delete ();
-		
 		var builder = new Json.Builder ();
 		builder.begin_object ();
 		builder.set_member_name ("version");
@@ -53,13 +52,16 @@ public class Ligo.Pages.Base : GLib.Object {
 		generator.set_root (builder.get_root ());
 		var data = generator.to_data (null);
 		
-		FileOutputStream stream = file.create (FileCreateFlags.PRIVATE);
-		stream.write (data.data);
+		IO.overwrite_file (path, data);
 	}
 	
 	public virtual void write_save_data (Json.Builder builder) {
 		builder.set_member_name ("content");
 		builder.add_string_value (content);
+	}
+	
+	public virtual void read_save_data (Json.Object data) {
+		content = data.get_string_member ("content");
 	}
 	
 }
@@ -68,8 +70,8 @@ namespace Ligo.Pages {
 
 	public static Pages.Base? parse (Json.Object root) {
 		Pages.Base page = null;
-		
 		var type = root.get_string_member ("type");
+		
 		switch (type) {
 			case Pages.Blog.TYPE:
 				page = new Pages.Blog ();
@@ -80,9 +82,9 @@ namespace Ligo.Pages {
 				break;
 		}
 		
-		page.url = root.get_string_member ("url");
 		page.name = root.get_string_member ("name");
-		
+		page.url = root.get_string_member ("url");
+		page.read_save_data (root);
 		return page;
 	}
 	

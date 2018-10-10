@@ -8,4 +8,13 @@ public class Ligo.IO {
 		return (string) data;
 	}
 	
+	public static void overwrite_file (string path, string contents) {
+		var file = File.new_for_path (path);
+		if (file.query_exists ())
+			file.@delete ();
+		
+		FileOutputStream stream = file.create (FileCreateFlags.PRIVATE);
+		stream.write (contents.data);
+	}
+	
 }

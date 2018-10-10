@@ -4,11 +4,12 @@ public class Ligo.Pages.Blog : Pages.Base {
 	
 	public Blog () {
 		base ();
-		//purpose = "blog";
 	}
 	
 	public override Widgets.Tabs.Base? create_tab () {
 		return new Widgets.Tabs.BlogEditor (this);
 	}
+	
+	public override void read_save_data (Json.Object data) {}
 	
 }

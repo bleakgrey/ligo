@@ -34,7 +34,7 @@ public class Ligo.Windows.Main: Gtk.Window {
 	
 	public Main (Gtk.Application _application) {
 		application = _application;
-		icon_name = "com.github.bleakgrey.desidia";
+		icon_name = "com.github.bleakgrey.ligo";
 		resizable = true;
 	}
 
