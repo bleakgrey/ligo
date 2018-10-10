@@ -1,7 +1,7 @@
 using Gtk;
 using Granite;
 
-public class Desidia.Widgets.Tabs.BlogEditor : Base {
+public class Ligo.Widgets.Tabs.BlogEditor : Base {
 	
 	protected Pages.Blog my_page;
 	

@@ -1,4 +1,4 @@
-public class Desidia.Pages.Blog : Pages.Base {
+public class Ligo.Pages.Blog : Pages.Base {
 	
 	public new const string TYPE = "blog";
 	

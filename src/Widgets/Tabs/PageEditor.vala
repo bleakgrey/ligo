@@ -1,7 +1,7 @@
 using Gtk;
 using Granite;
 
-public class Desidia.Widgets.Tabs.PageEditor : Base {
+public class Ligo.Widgets.Tabs.PageEditor : Base {
 	
 	public Widgets.SourceView editor;
 	protected Pages.Base my_page;

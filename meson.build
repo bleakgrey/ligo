@@ -1,4 +1,4 @@
-project('com.github.bleakgrey.desidia', 'vala', 'c')
+project('com.github.bleakgrey.ligo', 'vala', 'c')
 
 gnome = import('gnome')
 i18n = import('i18n')

@@ -1,7 +1,7 @@
 using Gtk;
 using Granite;
 
-public class Desidia.Widgets.Notebook : Granite.Widgets.DynamicNotebook {
+public class Ligo.Widgets.Notebook : Granite.Widgets.DynamicNotebook {
 	
 	private Widgets.Tabs.Startup? startup_tab;
 	

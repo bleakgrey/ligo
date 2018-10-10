@@ -1,7 +1,7 @@
 using Gtk;
 using Granite;
 
-namespace Desidia {
+namespace Ligo {
     
     public static Application app;
     public static Windows.Main? main_window;
@@ -9,9 +9,9 @@ namespace Desidia {
     public class Application : Granite.Application {
     
         construct {
-            application_id = "com.github.bleakgrey.desidia";
+            application_id = "com.github.bleakgrey.ligo";
             flags = ApplicationFlags.FLAGS_NONE;
-            program_name = "Desidia";
+            program_name = "Ligo";
             build_version = "0.1";
         }
     

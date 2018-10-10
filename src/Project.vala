@@ -1,7 +1,7 @@
 using GLib;
 using Gee;
 
-public class Desidia.Project : GLib.Object {
+public class Ligo.Project : GLib.Object {
 
     public static Project? opened;
 	

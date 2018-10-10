@@ -1,6 +1,6 @@
 using Gtk;
 
-public class Desidia.Windows.NewPage : Gtk.Dialog {
+public class Ligo.Windows.NewPage : Gtk.Dialog {
 
 	private static NewPage instance;
 

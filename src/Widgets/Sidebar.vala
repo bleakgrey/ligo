@@ -1,6 +1,6 @@
 using Granite;
 
-public class Desidia.Widgets.Sidebar : Granite.Widgets.SourceList {
+public class Ligo.Widgets.Sidebar : Granite.Widgets.SourceList {
 	
 	public Granite.Widgets.SourceList.ExpandableItem pages;
 	public Granite.Widgets.SourceList.ExpandableItem snippets;

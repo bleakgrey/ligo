@@ -1,6 +1,6 @@
 using Gtk;
 
-public class Desidia.Widgets.StatusBar : Gtk.ActionBar {
+public class Ligo.Widgets.StatusBar : Gtk.ActionBar {
 	
 	public Gtk.Label info;
 	public Gtk.Button add_page_button;

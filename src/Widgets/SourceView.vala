@@ -1,6 +1,6 @@
 using Gtk;
 
-public class Desidia.Widgets.SourceView : Gtk.SourceView {
+public class Ligo.Widgets.SourceView : Gtk.SourceView {
 
 	public SourceLanguageManager manager;
 	public SourceBuffer source_buffer;

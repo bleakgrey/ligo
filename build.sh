@@ -3,5 +3,5 @@ clear
 clear
 cd build
 ninja
-./com.github.bleakgrey.desidia --debug
-#./com.github.bleakgrey.desidia
+./com.github.bleakgrey.ligo --debug
+#./com.github.bleakgrey.ligo

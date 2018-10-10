@@ -1,4 +1,4 @@
-public class Desidia.IO {
+public class Ligo.IO {
 	
 	public static string read_file (string path) {
 		uint8[] data;

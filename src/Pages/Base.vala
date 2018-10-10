@@ -1,6 +1,6 @@
 using GLib;
 
-public class Desidia.Pages.Base : GLib.Object {
+public class Ligo.Pages.Base : GLib.Object {
 	
 	public const string TYPE = "basic";
 	
@@ -64,7 +64,7 @@ public class Desidia.Pages.Base : GLib.Object {
 	
 }
 
-namespace Desidia.Pages {
+namespace Ligo.Pages {
 
 	public static Pages.Base? parse (Json.Object root) {
 		Pages.Base page = null;

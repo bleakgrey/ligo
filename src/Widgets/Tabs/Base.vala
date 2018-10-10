@@ -1,7 +1,7 @@
 using Gtk;
 using Granite;
 
-public class Desidia.Widgets.Tabs.Base : Granite.Widgets.Tab {
+public class Ligo.Widgets.Tabs.Base : Granite.Widgets.Tab {
 	
 	public Gtk.ScrolledWindow scroller;
 	public bool has_status_bar;

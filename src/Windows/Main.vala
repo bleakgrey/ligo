@@ -1,6 +1,6 @@
 using Gtk;
 
-public class Desidia.Windows.Main: Gtk.Window {
+public class Ligo.Windows.Main: Gtk.Window {
 
 	public Widgets.HeaderBar header;
 	public Paned paned;

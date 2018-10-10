@@ -1,6 +1,6 @@
 using Gtk;
 
-public class Desidia.Widgets.HeaderBar: Gtk.HeaderBar {
+public class Ligo.Widgets.HeaderBar: Gtk.HeaderBar {
 
 	public Button open_button;
 	public Button save_button;
