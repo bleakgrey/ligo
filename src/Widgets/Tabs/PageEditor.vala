@@ -17,6 +17,10 @@ public class Desidia.Widgets.Tabs.PageEditor : Base {
 		label = my_page.name;
 		scroller.add (editor);
 		scroller.show_all ();
+		
+		editor.source_buffer.begin_not_undoable_action ();
+		editor.source_buffer.text = page.content;
+		editor.source_buffer.end_not_undoable_action ();
 		on_content_changed ();
 	}
 	
@@ -49,6 +53,29 @@ public class Desidia.Widgets.Tabs.PageEditor : Base {
 
 	public override bool is_page_owner (Pages.Base page) {
 		return this.my_page == page;
+	}
+	
+	public void save_page () {
+		var output = editor.source_buffer.text;
+		info (output);
+		
+		var path = my_page.get_save_path ();
+		var file = File.new_for_path (path);
+		if (file.query_exists ())
+			file.@delete ();
+		
+		var builder = new Json.Builder ();
+		builder.begin_object ();
+		builder.set_member_name ("content");
+		builder.add_string_value (output);
+		builder.end_object ();
+		
+		var generator = new Json.Generator ();
+		generator.set_root (builder.get_root ());
+		var data = generator.to_data (null);
+		
+		FileOutputStream stream = file.create (FileCreateFlags.PRIVATE);
+		stream.write (data.data);
 	}
 	
 }

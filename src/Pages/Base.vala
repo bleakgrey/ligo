@@ -2,8 +2,11 @@ using GLib;
 
 public class Desidia.Pages.Base : GLib.Object {
 	
+	public string path {get; set;}
+	
 	public string name {get; set;}
 	public string url {get; set;}
+	public string? content {get; set;}
 	
 	public Base () {
 		name = _("Unnamed Page");
@@ -18,6 +21,10 @@ public class Desidia.Pages.Base : GLib.Object {
 		return ""; //app.current_project.get_full_url () + "/" + this.url;
 	}
 	
+	public string get_save_path () {
+		return Path.build_filename (path, "pages", url + ".json");
+	}
+	
 	public string render_html () {
 		// var markdown = new Markdown.Document.gfm_format (source_buffer.text.data);
 		// markdown.compile ();
@@ -25,6 +32,10 @@ public class Desidia.Pages.Base : GLib.Object {
 		// markdown.get_document (out result);
 		// return (result);
 		return "";
+	}
+	
+	public void save () {
+		
 	}
 	
 }
@@ -41,6 +52,7 @@ namespace Desidia.Pages {
 				break;
 			default:
 				page = new Pages.Base ();
+				page.content = root.get_string_member ("content");
 				break;
 		}
 		
