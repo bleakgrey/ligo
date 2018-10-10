@@ -13,6 +13,7 @@ public class Ligo.Widgets.HeaderBar: Gtk.HeaderBar {
 		
 		save_button = new Button.from_icon_name ("document-save", IconSize.LARGE_TOOLBAR);
 		save_button.tooltip_text = _("Save Page");
+		save_button.sensitive = false;
 		save_button.clicked.connect (() => {
 			var tab = main_window.notebook.get_opened ();
 			if (tab != null)

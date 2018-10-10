@@ -41,19 +41,17 @@ public class Ligo.Widgets.Tabs.BlogEditor : Base {
 		return this.my_page == page;
 	}
 	
-	public override void on_switched () {
+	public override void on_ui_update () {
+		base.on_ui_update ();
 		var status_bar = main_window.status_bar;
 		status_bar.show ();
 		status_bar.page_settings_button.show ();
 		status_bar.add_page_button.show ();
-		on_content_changed ();
-	}
-	
-	public void on_content_changed () {
 		main_window.status_bar.info.label = _("%i articles").printf (5);
 	}
 	
 	public override void on_save () {
+		base.on_save ();
 		my_page.save ();
 	}
 	

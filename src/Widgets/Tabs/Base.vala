@@ -6,13 +6,23 @@ public class Ligo.Widgets.Tabs.Base : Granite.Widgets.Tab {
 	public Gtk.ScrolledWindow scroller;
 	public bool has_status_bar;
 	public bool configurable;
-	public bool saveable;
+	
+	private bool _has_changed;
+	public bool has_changed {
+		get {
+			return _has_changed;
+		}
+		set {
+			_has_changed = value;
+			on_ui_update ();
+		}
+	}
 	
 	public Base () {
 		base ();
 		has_status_bar = true;
 		configurable = false;
-		saveable = true;
+		has_changed = false;
 		
 		scroller = new ScrolledWindow (null, null);
 		page = scroller;
@@ -22,7 +32,16 @@ public class Ligo.Widgets.Tabs.Base : Granite.Widgets.Tab {
 		return false;
 	}
 	
-	public virtual void on_switched () {}
-	public virtual void on_save () {}
+	public virtual void on_ui_update () {
+		main_window.header.save_button.sensitive = has_changed;
+	}
+	
+	public virtual void on_switched () {
+		on_ui_update ();
+	}
+	public virtual void on_save () {
+		has_changed = false;
+		on_switched ();
+	}
 	
 }

@@ -42,8 +42,7 @@ public class Ligo.Widgets.Notebook : Granite.Widgets.DynamicNotebook {
 	}
 	
 	private void on_tab_switched (Granite.Widgets.Tab? old, Granite.Widgets.Tab current) {
-		var tab = get_opened ();
-		if (tab != null)
+		var tab = current as Widgets.Tabs.Base;
 			tab.on_switched ();
 	}
 	
@@ -65,8 +64,11 @@ public class Ligo.Widgets.Notebook : Granite.Widgets.DynamicNotebook {
 			var tab = page.create_tab ();
 			insert_tab (tab, -1);
 			i = get_tab_position (tab);
+			current = tab;
 		}
 		(get_child () as Gtk.Notebook).set_current_page (i);
+		var curr = get_tab_by_index (i) as Widgets.Tabs.Base;
+		curr.on_switched ();
 		
 		close_startup ();
 	}
