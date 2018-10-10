@@ -6,10 +6,12 @@ public class Ligo.Pages.Blog : Pages.Base {
 		base ();
 	}
 	
+	protected override string get_page_type () {
+		return TYPE;
+	}
+	
 	public override Widgets.Tabs.Base? create_tab () {
 		return new Widgets.Tabs.BlogEditor (this);
 	}
-	
-	public override void read_save_data (Json.Object data) {}
 	
 }

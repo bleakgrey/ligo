@@ -53,4 +53,8 @@ public class Ligo.Widgets.Tabs.BlogEditor : Base {
 		main_window.status_bar.info.label = _("%i articles").printf (5);
 	}
 	
+	public override void on_save () {
+		my_page.save ();
+	}
+	
 }

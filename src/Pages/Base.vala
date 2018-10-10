@@ -2,49 +2,48 @@ using GLib;
 
 public class Ligo.Pages.Base : GLib.Object {
 	
-	public const string TYPE = "basic";
+	public const string TYPE = "unknown";
 	
 	public string path {get; set;}
 	public string name {get; set;}
 	public string url {get; set;}
-	public string? content {get; set;}
 	public bool show_in_navigation {get; set;}
 	
 	public Base () {
 		name = _("Unnamed Page");
 		url = "unnamed";
-		content = "";
 		show_in_navigation = true;
 	}
 	
+	protected virtual string get_page_type () {
+		return TYPE;
+	}
+	
 	public virtual Widgets.Tabs.Base? create_tab () {
-		return new Widgets.Tabs.PageEditor (this);
+		return null;
 	}
 	
 	public string get_full_url () {
 		return ""; //app.current_project.get_full_url () + "/" + this.url;
 	}
 	
-	public string render () {
-		// var markdown = new Markdown.Document.gfm_format (content.data);
-		// markdown.compile ();
-		// string result;
-		// markdown.get_document (out result);
-		// return (result);
+	public virtual string render () {
 		return "";
 	}
 	
-	public void save () {
+	public virtual void save () {
 		var builder = new Json.Builder ();
 		builder.begin_object ();
 		builder.set_member_name ("version");
 		builder.add_int_value (1);
 		builder.set_member_name ("type");
-		builder.add_string_value (TYPE);
+		builder.add_string_value (get_page_type ());
 		builder.set_member_name ("name");
 		builder.add_string_value (name);
 		builder.set_member_name ("url");
 		builder.add_string_value (url);
+		builder.set_member_name ("show_in_navigation");
+		builder.add_boolean_value (show_in_navigation);
 		write_save_data (builder);
 		builder.end_object ();
 		
@@ -55,14 +54,8 @@ public class Ligo.Pages.Base : GLib.Object {
 		IO.overwrite_file (path, data);
 	}
 	
-	public virtual void write_save_data (Json.Builder builder) {
-		builder.set_member_name ("content");
-		builder.add_string_value (content);
-	}
-	
-	public virtual void read_save_data (Json.Object data) {
-		content = data.get_string_member ("content");
-	}
+	public virtual void write_save_data (Json.Builder builder) {}
+	public virtual void read_save_data (Json.Object data) {}
 	
 }
 
@@ -73,17 +66,20 @@ namespace Ligo.Pages {
 		var type = root.get_string_member ("type");
 		
 		switch (type) {
+			case Pages.Text.TYPE:
+				page = new Pages.Text ();
+				break;
 			case Pages.Blog.TYPE:
 				page = new Pages.Blog ();
 				break;
 			default:
-				page = new Pages.Base ();
-				page.content = root.get_string_member ("content");
+				warning ("Unknown page type: %s", type);
 				break;
 		}
 		
 		page.name = root.get_string_member ("name");
 		page.url = root.get_string_member ("url");
+		page.show_in_navigation = root.get_boolean_member ("show_in_navigation");
 		page.read_save_data (root);
 		return page;
 	}

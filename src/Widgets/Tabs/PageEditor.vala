@@ -4,14 +4,14 @@ using Granite;
 public class Ligo.Widgets.Tabs.PageEditor : Base {
 	
 	public Widgets.SourceView editor;
-	protected Pages.Base my_page;
+	protected Pages.Text my_page;
 	
 	construct {
 		editor = new Widgets.SourceView ();
 		editor.source_buffer.changed.connect (on_content_changed);
 	}
 	
-	public PageEditor (Pages.Base page) {
+	public PageEditor (Pages.Text page) {
 		base ();
 		my_page = page;
 		label = my_page.name;

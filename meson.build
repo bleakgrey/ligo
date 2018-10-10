@@ -26,6 +26,7 @@ executable(
     'src/IO.vala',
     'src/Application.vala',
     'src/Pages/Base.vala',
+    'src/Pages/Text.vala',
     'src/Pages/Blog.vala',
     'src/Project.vala',
     'src/Widgets/HeaderBar.vala',

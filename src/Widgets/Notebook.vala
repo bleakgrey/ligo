@@ -42,8 +42,9 @@ public class Ligo.Widgets.Notebook : Granite.Widgets.DynamicNotebook {
 	}
 	
 	private void on_tab_switched (Granite.Widgets.Tab? old, Granite.Widgets.Tab current) {
-		var custom_tab = current as Widgets.Tabs.Base;
-		custom_tab.on_switched ();
+		var tab = get_opened ();
+		if (tab != null)
+			tab.on_switched ();
 	}
 	
 	private void on_tab_removed (Granite.Widgets.Tab tab) {
