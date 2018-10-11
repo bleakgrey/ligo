@@ -29,6 +29,7 @@ executable(
     'src/Pages/Text.vala',
     'src/Pages/Blog.vala',
     'src/Project.vala',
+    'src/Widgets/FormLabel.vala',
     'src/Widgets/HeaderBar.vala',
     'src/Widgets/Sidebar.vala',
     'src/Widgets/StatusBar.vala',
@@ -38,6 +39,7 @@ executable(
     'src/Widgets/Tabs/Startup.vala',
     'src/Widgets/Tabs/PageEditor.vala',
     'src/Widgets/Tabs/BlogEditor.vala',
+    'src/Widgets/Forms/PageTypeSelector.vala',
     'src/Windows/NewPage.vala',
     'src/Windows/Main.vala',
     dependencies: [

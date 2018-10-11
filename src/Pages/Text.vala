@@ -4,9 +4,15 @@ public class Ligo.Pages.Text : Pages.Base {
 	
 	public string content {get; set;}
 	
-	public Text () {
-		base ();
+	construct {
 		content = "";
+		icon_name = "text-markdown";
+	}
+	
+	public Text () {}
+	
+	public override string get_display_type () {
+		return _("Markdown Text");
 	}
 	
 	protected override string get_page_type () {

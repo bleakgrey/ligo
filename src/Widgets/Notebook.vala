@@ -14,6 +14,7 @@ public class Ligo.Widgets.Notebook : Granite.Widgets.DynamicNotebook {
 		
 		tab_switched.connect (on_tab_switched);
 		tab_removed.connect (on_tab_removed);
+		new_tab_requested.connect (() => Windows.NewPage.open ());
 	}
 	
 	public Notebook () {

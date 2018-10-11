@@ -4,15 +4,23 @@ public class Ligo.Pages.Base : GLib.Object {
 	
 	public const string TYPE = "unknown";
 	
+	public string icon_name {get; set;}
 	public string path {get; set;}
 	public string name {get; set;}
 	public string url {get; set;}
 	public bool show_in_navigation {get; set;}
 	
-	public Base () {
+	construct {
+		icon_name = "unknown"; //"folder-documents";
 		name = _("Unnamed Page");
 		url = "unnamed";
 		show_in_navigation = true;
+	}
+	
+	public Base () {}
+	
+	public virtual string get_display_type () {
+		return _("Unknown");
 	}
 	
 	protected virtual string get_page_type () {
@@ -60,6 +68,13 @@ public class Ligo.Pages.Base : GLib.Object {
 }
 
 namespace Ligo.Pages {
+
+	public static Type[] get_all_types () {
+		Type[] types = {};
+		types += typeof (Pages.Text);
+		types += typeof (Pages.Blog);
+		return types;
+	}
 
 	public static Pages.Base? parse (Json.Object root) {
 		Pages.Base page = null;

@@ -22,7 +22,7 @@ public class Ligo.Widgets.Sidebar : Granite.Widgets.SourceList {
 	
 	public void add_page (Pages.Base page) {
 		var item = new Granite.Widgets.SourceList.Item (page.name);
-		item.icon = new ThemedIcon ("folder-documents");
+		item.icon = new ThemedIcon (page.icon_name);
 		item.activated.connect (() => main_window.notebook.open_page (page));
 		pages.add (item);
 	}

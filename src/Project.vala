@@ -5,6 +5,7 @@ public class Ligo.Project : GLib.Object {
 
     public static Project? opened;
 	
+	public string path {get; set;}
 	public string name {get; set;}
 	public string description {get; set;}
 	
@@ -19,6 +20,7 @@ public class Ligo.Project : GLib.Object {
 	public static void open_from_path (string path) {
 		info ("Opening project: %s", path);
 		opened = new Project ();
+		opened.path = path;
 		
 		var manifest_path = Path.build_filename (path, "project.json");
 		var manifest = IO.read_file (manifest_path);
@@ -40,6 +42,28 @@ public class Ligo.Project : GLib.Object {
 		info ("Loaded %i pages", opened.pages.size);
 		
 		main_window.notebook.open_startup ();
+	}
+	
+	public void save () {
+		var manifest_path = Path.build_filename (path, "project.json");
+		var builder = new Json.Builder ();
+		builder.begin_object ();
+		builder.set_member_name ("version");
+		builder.add_int_value (1);
+		builder.set_member_name ("pages");
+		builder.begin_array ();
+		pages.@foreach (page => {
+			builder.add_string_value (page.url);
+			return true;
+		});
+		builder.end_array ();
+		builder.end_object ();
+		
+		var generator = new Json.Generator ();
+		generator.set_root (builder.get_root ());
+		var data = generator.to_data (null);
+		
+		IO.overwrite_file (manifest_path, data);
 	}
 	
 	private void load_page (string path, string id) {

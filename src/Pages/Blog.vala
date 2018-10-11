@@ -2,8 +2,15 @@ public class Ligo.Pages.Blog : Pages.Base {
 	
 	public new const string TYPE = "blog";
 	
+	construct {
+		icon_name = "document-edit";
+	}
+	
 	public Blog () {
-		base ();
+	}
+	
+	public override string get_display_type () {
+		return _("Blog");
 	}
 	
 	protected override string get_page_type () {
