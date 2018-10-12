@@ -1,1 +1,1 @@
-chevron -d "./schema.json" -p "./partials" -e "part" "layout_paginated.html" > OUTPUT.html
+chevron -d "./schema.json" -p "./partials" -e "part" "layout_article.html" > OUTPUT.html

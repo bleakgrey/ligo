@@ -8,6 +8,7 @@ public class Ligo.Project : GLib.Object {
 	public string path {get; set;}
 	public string name {get; set;}
 	public string description {get; set;}
+	public Theme theme;
 	
 	public Gee.List<Pages.Base> pages {get; set;}
 	
@@ -15,6 +16,7 @@ public class Ligo.Project : GLib.Object {
 		name = _("Unnamed Project");
 		description = _("A simple site");
 		pages = new ArrayList<Pages.Base> ();
+		theme = themes.@get ("Axis");
 	}
 	
 	public static void open_from_path (string path) {
@@ -53,7 +55,7 @@ public class Ligo.Project : GLib.Object {
 		builder.set_member_name ("pages");
 		builder.begin_array ();
 		pages.@foreach (page => {
-			builder.add_string_value (page.url);
+			builder.add_string_value (page.permalink);
 			return true;
 		});
 		builder.end_array ();
@@ -71,16 +73,85 @@ public class Ligo.Project : GLib.Object {
 		var contents = IO.read_file (path);
 		var parser = new Json.Parser ();
 		parser.load_from_data (contents, -1);
-		var page = Pages.parse (parser.get_root ().get_object ());
+		var root = parser.get_root ().get_object ();
+		var page = Pages.parse (ref root);
 				
 		if (page == null)
 			warning ("Can't read page: %s", path);
 		else {
-			page.url = id;
+			page.permalink = id;
 			page.path = path;
 			pages.add (page);
 			main_window.sidebar.add_page (page);
 		}
+	}
+	
+	public Json.Builder build_schema () {
+		var schema = new Json.Builder ();
+		
+		// General site info
+		schema.begin_object ();
+		schema.set_member_name ("site");
+		schema.begin_object ();
+		schema.set_member_name ("name");
+		schema.add_string_value (name);
+		schema.end_object ();
+		
+		// Navigation links
+		schema.set_member_name ("navigation");
+		schema.begin_array ();
+		pages.@foreach (page => {
+			if (!page.show_in_navigation)
+				return true;
+			
+			schema.begin_object ();
+			schema.set_member_name ("name");
+			schema.add_string_value (page.name);
+			schema.set_member_name ("url");
+			schema.add_string_value (page.get_url ());
+			schema.end_object ();
+			return true;
+		});
+		schema.end_array ();
+		
+		// Theme settings. WIP.
+		schema.set_member_name ("theme");
+		schema.begin_object ();
+		schema.set_member_name ("color");
+		schema.add_string_value ("blue");
+		schema.end_object ();
+		
+		return schema;
+	}
+	
+	public void export () {
+		info ("--- Performing an export ---");
+		var page = pages.@get (0);
+		
+		//Prepare schema
+		var schema = build_schema ();
+		page.inject_schema (ref schema);
+		schema.end_object ();
+		schema.end_object ();
+		
+		var generator = new Json.Generator ();
+		generator.set_root (schema.get_root ());
+		var schema_data = generator.to_data (null);
+		
+		//Pass to the templating engine
+		var working_path = Environment.get_home_dir () + "/.local/bin/";
+		var layout_path = theme.get_layout_path (page);
+		var output_path = Path.build_filename (path, "export", page.permalink + ".html");
+		var schema_path = Path.build_filename (path, "export", page.permalink + ".html.schema.json");
+		IO.overwrite_file (schema_path, schema_data);
+		
+		string stdout;
+		var cmd = "chevron -d \"%s\" -p \"%s\" -e \"part\" \"%s\""
+			.printf (schema_path, theme.partials_path, layout_path);
+		Process.spawn_command_line_sync (cmd, out stdout);
+		IO.overwrite_file (output_path, stdout);
+		
+		info ("--- Export finish ---");
 	}
 	
 }

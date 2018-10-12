@@ -1,10 +1,12 @@
 using Gtk;
+using Gee;
 using Granite;
 
 namespace Ligo {
     
     public static Application app;
     public static Windows.Main? main_window;
+    public static HashMap<string,Theme> themes;
     
     public class Application : Granite.Application {
     
@@ -13,6 +15,7 @@ namespace Ligo {
             flags = ApplicationFlags.FLAGS_NONE;
             program_name = "Ligo";
             build_version = "0.1";
+            themes = new HashMap<string,Theme> ();
         }
     
         public static int main (string[] args) {
@@ -25,6 +28,7 @@ namespace Ligo {
             main_window = new Windows.Main (this);
             main_window.present ();
 			
+			Theme.load_available ();
             Project.open_from_path ("/home/blue/Documents/Sites/Example");
         }
     

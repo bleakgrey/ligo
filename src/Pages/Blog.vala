@@ -13,7 +13,7 @@ public class Ligo.Pages.Blog : Pages.Base {
 		return _("Blog");
 	}
 	
-	protected override string get_page_type () {
+	public override string get_page_type () {
 		return TYPE;
 	}
 	

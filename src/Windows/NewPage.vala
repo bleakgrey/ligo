@@ -6,7 +6,7 @@ public class Ligo.Windows.NewPage : Gtk.Dialog {
 	
 	private Grid grid;
 	private Entry page_name;
-	private Entry url;
+	private Entry permalink;
 	private Widgets.Forms.PageTypeSelector page_type;
 	private Button create_button;
 	private Switch show_in_navigation;
@@ -19,8 +19,8 @@ public class Ligo.Windows.NewPage : Gtk.Dialog {
 		
 		page_name = new Entry ();
 		page_name.hexpand = true;
-		url = new Entry ();
-		url.hexpand = true;
+		permalink = new Entry ();
+		permalink.hexpand = true;
 		page_type = new Widgets.Forms.PageTypeSelector ();
 		show_in_navigation = new Switch ();
 		show_in_navigation.halign = Align.START;
@@ -29,7 +29,7 @@ public class Ligo.Windows.NewPage : Gtk.Dialog {
 		grid.attach (new Widgets.FormLabel (_("Name:")), 0, 1);
 		grid.attach (page_name, 1, 1);
 		grid.attach (new Widgets.FormLabel (_("Permalink:")), 0, 2);
-		grid.attach (url, 1, 2);
+		grid.attach (permalink, 1, 2);
 		grid.attach (new Widgets.FormLabel (_("Type:")), 0, 3);
 		grid.attach (page_type, 1, 3);
 		grid.attach (new Widgets.FormLabel (_("Show in Navigation:")), 0, 4);
@@ -65,9 +65,9 @@ public class Ligo.Windows.NewPage : Gtk.Dialog {
 		var project = Project.opened;
 		var page = page_type.create ();
 		page.name = page_name.text;
-		page.url = url.text;
+		page.permalink = permalink.text;
 		page.show_in_navigation = show_in_navigation.active;
-		page.path = Path.build_filename (project.path, "pages", page.url + ".json");
+		page.path = Path.build_filename (project.path, "pages", page.permalink + ".json");
 		
 		project.pages.add (page);
 		main_window.sidebar.add_page (page);

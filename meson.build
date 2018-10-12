@@ -28,6 +28,7 @@ executable(
     'src/Pages/Base.vala',
     'src/Pages/Text.vala',
     'src/Pages/Blog.vala',
+    'src/Theme.vala',
     'src/Project.vala',
     'src/Widgets/FormLabel.vala',
     'src/Widgets/HeaderBar.vala',

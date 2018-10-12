@@ -1,3 +1,0 @@
-{{#navigation}}
-<a class="link dim dark-gray f6 f5-ns dib pa3" href="{{url}}">{{name}}</a>
-{{/navigation}}

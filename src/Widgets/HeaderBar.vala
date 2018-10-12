@@ -22,6 +22,9 @@ public class Ligo.Widgets.HeaderBar: Gtk.HeaderBar {
 		
 		publish_button = new Button.from_icon_name ("document-send", IconSize.LARGE_TOOLBAR);
 		publish_button.tooltip_text = _("Publish");
+		publish_button.clicked.connect (() => {
+			Project.opened.export ();
+		});
 		
 		settings_button = new Button.from_icon_name ("open-menu", IconSize.LARGE_TOOLBAR);
 		settings_button.tooltip_text = _("Settings");

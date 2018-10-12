@@ -15,7 +15,7 @@ public class Ligo.Pages.Text : Pages.Base {
 		return _("Markdown Text");
 	}
 	
-	protected override string get_page_type () {
+	public override string get_page_type () {
 		return TYPE;
 	}
 	
@@ -23,22 +23,31 @@ public class Ligo.Pages.Text : Pages.Base {
 		return new Widgets.Tabs.PageEditor (this);
 	}
 	
-	public override string render () {
-		// var markdown = new Markdown.Document.gfm_format (content.data);
-		// markdown.compile ();
-		// string result;
-		// markdown.get_document (out result);
-		// return (result);
-		return "";
-	}
-	
-	public override void write_save_data (Json.Builder builder) {
+	public override void write_save_data (ref Json.Builder builder) {
+		base.write_save_data (ref builder);
 		builder.set_member_name ("content");
 		builder.add_string_value (content);
 	}
 	
-	public override void read_save_data (Json.Object data) {
+	public override void read_save_data (ref Json.Object data) {
+		base.read_save_data (ref data);
 		content = data.get_string_member ("content");
+	}
+	
+	public override Json.Builder inject_schema (ref Json.Builder schema) {
+		base.inject_schema (ref schema);
+		var html_content = render_markdown ();
+		schema.set_member_name ("content");
+		schema.add_string_value (html_content);
+		return schema;
+	}
+
+	public string render_markdown () {
+		var markdown = new Markdown.Document.gfm_format (content.data);
+		markdown.compile ();
+		string result;
+		markdown.get_document (out result);
+		return result;
 	}
 
 }
