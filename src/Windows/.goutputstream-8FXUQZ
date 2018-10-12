@@ -9,8 +9,8 @@ public class Ligo.Windows.Main: Gtk.Window {
 	public Widgets.Notebook notebook;
 	public Box box;
 	
-	public Overlay overlay;
-	public Granite.Widgets.OverlayBar overlay_bar;
+	private Overlay overlay;
+	private Granite.Widgets.OverlayBar overlay_bar;
 
 	construct {
 		default_height = 500;
@@ -20,10 +20,11 @@ public class Ligo.Windows.Main: Gtk.Window {
 		status_bar = new Widgets.StatusBar ();
 		notebook = new Widgets.Notebook ();
 		
+		var overlay_bar = new Granite.Widgets.OverlayBar ();
 		var overlay = new Gtk.Overlay ();
-		overlay_bar = new Granite.Widgets.OverlayBar (overlay);
-		overlay_bar.active = true;
 		overlay.add (notebook);
+		overlay.add_overlay (overlay_bar);
+		overlay_bar.active = true;
 		
 		var box = new Box (Orientation.VERTICAL, 0);
 		box.pack_end (status_bar, false, false, 0);
@@ -38,8 +39,7 @@ public class Ligo.Windows.Main: Gtk.Window {
 		header = new Widgets.HeaderBar ();
 		set_titlebar (header);
 		show_all ();
-		
-		update_progress ();
+		overlay_bar.visible = false;
 	}
 	
 	public Main (Gtk.Application _application) {
@@ -48,14 +48,14 @@ public class Ligo.Windows.Main: Gtk.Window {
 		resizable = true;
 	}
 	
-	public void update_progress (string? text = null) {
-		if (text == null) {
-			overlay_bar.visible = false;
+	public void set_status (string? label = null) {
+		overlay_bar.visible = label != null;
+		if (overlay_bar.visible) {
+			info ("YEA");
+			overlay_bar.label = label;
 		}
-		else {
-			overlay_bar.visible = true;
-			overlay_bar.label = text;
-		}
+		else
+		info ("YEA");
 	}
 
 }

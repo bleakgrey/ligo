@@ -11,6 +11,7 @@ public class Ligo.Project : GLib.Object {
 	public Theme theme;
 	
 	public Gee.List<Pages.Base> pages {get; set;}
+	public Pages.Base? home_page;
 	
 	public Project () {
 		name = _("Unnamed Project");
@@ -124,8 +125,16 @@ public class Ligo.Project : GLib.Object {
 	}
 	
 	public void export () {
-		info ("--- Performing an export ---");
-		var page = pages.@get (0);
+		main_window.update_progress (_("Rendering pages..."));
+		pages.@foreach (page => {
+			export_page (page);
+			return true;
+		});
+		main_window.update_progress ();
+	}
+	
+	public void export_page (Pages.Base page) {
+		info ("Exporting page: %s", page.get_url ());
 		
 		//Prepare schema
 		var schema = build_schema ();
@@ -149,8 +158,6 @@ public class Ligo.Project : GLib.Object {
 			.printf (schema_path, theme.partials_path, layout_path);
 		Process.spawn_command_line_sync (cmd, out stdout);
 		IO.overwrite_file (output_path, stdout);
-		
-		info ("--- Export finish ---");
 	}
 	
 }

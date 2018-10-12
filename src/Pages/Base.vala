@@ -9,11 +9,13 @@ public class Ligo.Pages.Base : GLib.Object {
 	public string name {get; set;}
 	public string permalink {get; set;}
 	public bool show_in_navigation {get; set;}
+	public bool is_home {get; set;}
 	
 	construct {
 		icon_name = "unknown"; //"folder-documents";
 		name = _("Unnamed Page");
 		permalink = "unnamed";
+		is_home = false;
 		show_in_navigation = true;
 	}
 	
@@ -33,6 +35,10 @@ public class Ligo.Pages.Base : GLib.Object {
 	
 	public string get_url () {
 		return permalink + ".html";
+	}
+	
+	public bool can_be_removed () {
+		return Project.opened.pages.size > 1 && !is_home;
 	}
 	
 	public virtual void save () {
@@ -59,11 +65,14 @@ public class Ligo.Pages.Base : GLib.Object {
 		builder.add_string_value (permalink);
 		builder.set_member_name ("show_in_navigation");
 		builder.add_boolean_value (show_in_navigation);
+		builder.set_member_name ("is_home");
+		builder.add_boolean_value (is_home);
 	}
 	public virtual void read_save_data (ref Json.Object data) {
 		name = data.get_string_member ("name");
 		permalink = data.get_string_member ("permalink");
 		show_in_navigation = data.get_boolean_member ("show_in_navigation");
+		is_home = data.get_boolean_member ("is_home");
 	}
 	
 	public virtual void inject_schema (ref Json.Builder schema) {
