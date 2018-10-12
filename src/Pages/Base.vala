@@ -66,14 +66,13 @@ public class Ligo.Pages.Base : GLib.Object {
 		show_in_navigation = data.get_boolean_member ("show_in_navigation");
 	}
 	
-	public virtual Json.Builder inject_schema (ref Json.Builder schema) {
+	public virtual void inject_schema (ref Json.Builder schema) {
 		schema.set_member_name ("page");
 		schema.begin_object ();
 		schema.set_member_name ("name");
 		schema.add_string_value (name);
 		schema.set_member_name ("type");
 		schema.add_string_value (get_page_type ());
-		return schema;
 	}
 	
 }

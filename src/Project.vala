@@ -101,15 +101,14 @@ public class Ligo.Project : GLib.Object {
 		schema.set_member_name ("navigation");
 		schema.begin_array ();
 		pages.@foreach (page => {
-			if (!page.show_in_navigation)
-				return true;
-			
-			schema.begin_object ();
-			schema.set_member_name ("name");
-			schema.add_string_value (page.name);
-			schema.set_member_name ("url");
-			schema.add_string_value (page.get_url ());
-			schema.end_object ();
+			if (page.show_in_navigation) {
+				schema.begin_object ();
+				schema.set_member_name ("name");
+				schema.add_string_value (page.name);
+				schema.set_member_name ("url");
+				schema.add_string_value (page.get_url ());
+				schema.end_object ();
+			}
 			return true;
 		});
 		schema.end_array ();
