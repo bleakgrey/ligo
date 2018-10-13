@@ -125,6 +125,10 @@ public class Ligo.Project : GLib.Object {
 		main_window.update_progress (_("Rendering pages..."));
 		pages.@foreach (page => {
 			export_page (page);
+			page.children.@foreach (child => {
+				export_page (child);
+				return true;
+			});
 			return true;
 		});
 		main_window.update_progress ();
@@ -145,8 +149,13 @@ public class Ligo.Project : GLib.Object {
 		
 		//Pass to the templating engine
 		var layout_path = theme.get_layout_path (page);
-		var output_path = Path.build_filename (path, "export", page.permalink + ".html");
-		var schema_path = Path.build_filename (path, "export", page.permalink + ".html.schema.json");
+		var output_path = Path.build_filename (path, "export", page.get_url ());
+		if (page.parent != null) {
+			var dir_path = output_path.replace (page.permalink + ".html", "");
+			IO.make_dir (dir_path);
+			info ("Created directory: %s", dir_path);
+		}
+		var schema_path = Path.build_filename (path, "export", page.get_url () + ".schema.json");
 		IO.overwrite_file (schema_path, schema_data);
 		
 		string stdout;

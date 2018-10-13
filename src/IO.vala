@@ -31,6 +31,11 @@ public class Ligo.IO {
 		return GLib.FileUtils.test (path, GLib.FileTest.IS_DIR);
 	}
 	
+	public static void make_dir (string path) {
+		var dir = File.new_for_path (path);
+		dir.make_directory_with_parents ();
+	}
+	
 	
 	
 	

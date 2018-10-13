@@ -48,7 +48,11 @@ public class Ligo.Pages.Base : GLib.Object {
 	}
 	
 	public string get_url () {
-		return permalink + ".html";
+		var base_path = permalink + ".html";
+		if (parent == null)
+			return base_path;
+		else
+			return parent.get_url ().replace (".html", "") + "/" + base_path;
 	}
 	
 	public bool can_be_removed () {
