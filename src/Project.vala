@@ -71,17 +71,14 @@ public class Ligo.Project : GLib.Object {
 	
 	private void load_page (string path, string id) {
 		info ("Loading page: %s", path);
-		var contents = IO.read_file (path);
-		var parser = new Json.Parser ();
-		parser.load_from_data (contents, -1);
-		var root = parser.get_root ().get_object ();
+		var root = IO.read_json (path);
 		var page = Pages.parse (ref root);
 				
 		if (page == null)
 			warning ("Can't read page: %s", path);
 		else {
 			page.permalink = id;
-			page.path = path;
+			//page.path = path;
 			pages.add (page);
 			main_window.sidebar.add_page (page);
 		}
@@ -147,7 +144,6 @@ public class Ligo.Project : GLib.Object {
 		var schema_data = generator.to_data (null);
 		
 		//Pass to the templating engine
-		var working_path = Environment.get_home_dir () + "/.local/bin/";
 		var layout_path = theme.get_layout_path (page);
 		var output_path = Path.build_filename (path, "export", page.permalink + ".html");
 		var schema_path = Path.build_filename (path, "export", page.permalink + ".html.schema.json");

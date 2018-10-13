@@ -6,6 +6,9 @@ public class Ligo.Widgets.Tabs.PageEditor : Base {
 	public Widgets.SourceView editor;
 	protected Pages.Text my_page;
 	
+	private GtkSpell.Checker? spell;
+	private string lang_dict;
+	
 	construct {
 		editor = new Widgets.SourceView ();
 		editor.source_buffer.changed.connect (on_content_changed);
@@ -26,6 +29,7 @@ public class Ligo.Widgets.Tabs.PageEditor : Base {
 		editor.source_buffer.changed.connect (() => {
 			has_changed = true;
 		});
+		//attach_spell_check ();
 	}
 	
 	public override void on_switched () {
@@ -64,6 +68,21 @@ public class Ligo.Widgets.Tabs.PageEditor : Base {
 		base.on_save ();
 		my_page.content = editor.source_buffer.text;
 		my_page.save ();
+	}
+	
+	private void attach_spell_check () {
+		try {
+			if (GtkSpell.Checker.get_from_text_view (editor) == null) {
+				spell = new GtkSpell.Checker ();
+				var language_list = GtkSpell.Checker.get_language_list ();
+				lang_dict = language_list.first ().data;
+				spell.set_language (lang_dict);
+				spell.attach (editor);
+			}
+		}
+		catch (Error e) {
+			warning (e.message);
+		}
 	}
 	
 }

@@ -1,3 +1,5 @@
+using Gee;
+
 public class Ligo.Pages.Blog : Pages.Base {
 	
 	public new const string TYPE = "blog";
@@ -6,8 +8,7 @@ public class Ligo.Pages.Blog : Pages.Base {
 		icon_name = "document-edit";
 	}
 	
-	public Blog () {
-	}
+	public Blog () {}
 	
 	public override string get_display_type () {
 		return _("Blog");

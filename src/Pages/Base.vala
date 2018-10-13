@@ -1,22 +1,36 @@
 using GLib;
+using Gee;
 
 public class Ligo.Pages.Base : GLib.Object {
 	
 	public const string TYPE = "unknown";
 	
 	public string icon_name {get; set;}
-	public string path {get; set;}
 	public string name {get; set;}
 	public string permalink {get; set;}
 	public bool show_in_navigation {get; set;}
 	public bool is_home {get; set;}
 	
+	public weak Pages.Base? parent;
+	public Gee.List<Pages.Base> children {get; set;}
+	
+	public string get_path () {
+		if (parent == null)
+			return Path.build_filename (Project.opened.path, "pages", permalink + ".json");
+		else
+			return Path.build_filename (parent.get_path ().replace (".json", ""), permalink + ".json");
+	}
+	public string get_children_path () {
+		return get_path ().replace (".json", "");
+	}
+	
 	construct {
-		icon_name = "unknown"; //"folder-documents";
+		icon_name = "unknown";
 		name = _("Unnamed Page");
 		permalink = "unnamed";
 		is_home = false;
 		show_in_navigation = true;
+		children = new ArrayList<Pages.Base> ();
 	}
 	
 	public Base () {}
@@ -51,7 +65,7 @@ public class Ligo.Pages.Base : GLib.Object {
 		generator.set_root (builder.get_root ());
 		var data = generator.to_data (null);
 		
-		IO.overwrite_file (path, data);
+		IO.overwrite_file (get_path (), data);
 	}
 	
 	public virtual void write_save_data (ref Json.Builder builder) {
@@ -95,7 +109,7 @@ namespace Ligo.Pages {
 		return types;
 	}
 
-	public static Pages.Base? parse (ref Json.Object root) {
+	public static Pages.Base? parse (ref Json.Object root, Pages.Base? parent = null) {
 		Pages.Base page = null;
 		var type = root.get_string_member ("type");
 		switch (type) {
@@ -105,12 +119,25 @@ namespace Ligo.Pages {
 			case Pages.Blog.TYPE:
 				page = new Pages.Blog ();
 				break;
+			case Pages.BlogArticle.TYPE:
+				page = new Pages.BlogArticle ();
+				break;
 			default:
 				warning ("Unknown page type: %s", type);
-				break;
+				return null;
 		}
-		
+		page.parent = parent;
 		page.read_save_data (ref root);
+		
+		// Read children pages
+		var file_io = new IO ();
+		file_io.dir_foreach (page.get_children_path (), (file, path) => {
+			var child_root = IO.read_json (path);
+			var child = Pages.parse (ref child_root, page);
+			page.children.add (child);
+			info ("Loaded %i child pages", page.children.size);
+		});
+		
 		return page;
 	}
 	

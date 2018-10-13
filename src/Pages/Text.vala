@@ -12,7 +12,7 @@ public class Ligo.Pages.Text : Pages.Base {
 	public Text () {}
 	
 	public override string get_display_type () {
-		return _("Markdown Text");
+		return _("Custom Text");
 	}
 	
 	public override string get_page_type () {

@@ -67,7 +67,6 @@ public class Ligo.Windows.NewPage : Gtk.Dialog {
 		page.name = page_name.text;
 		page.permalink = permalink.text;
 		page.show_in_navigation = show_in_navigation.active;
-		page.path = Path.build_filename (project.path, "pages", page.permalink + ".json");
 		
 		project.pages.add (page);
 		main_window.sidebar.add_page (page);

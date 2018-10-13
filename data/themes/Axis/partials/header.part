@@ -1,8 +1,8 @@
-<nav class="center ph7-l dt w-100 pa4 sans-serif">
-    <a class="link dim f6 f5-ns dib b {{theme.color}} mr4" href="#">{{site.name}}</a>
+<nav class="center ph7-l dt w-100 bg-{{theme.color}} pa4 sans-serif">
+    <a class="link dim f6 f5-ns dib b white mr4" href="#">{{site.name}}</a>
     <div class="dtc v-mid w-75 tr">
         {{#navigation}}
-        <a class="link dim f6 f5-ns dib {{theme.color}} ml4" href="{{url}}">{{name}}</a>
+        <a class="link dim f6 f5-ns dib white ml4" href="{{url}}">{{name}}</a>
         {{/navigation}}
     </div>
 </nav>
