@@ -34,8 +34,8 @@ public class Ligo.Pages.Text : Pages.Base {
 		content = data.get_string_member ("content");
 	}
 	
-	public override void inject_schema (ref Json.Builder schema) {
-		base.inject_schema (ref schema);
+	public override void inject_schema (Json.Builder schema) {
+		base.inject_schema (schema);
 		var html_content = render_markdown ();
 		schema.set_member_name ("content");
 		schema.add_string_value (html_content);

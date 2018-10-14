@@ -55,6 +55,14 @@ public class Ligo.Pages.Base : GLib.Object {
 			return parent.get_url ().replace (".html", "") + "/" + base_path;
 	}
 	
+	public string get_site_root_url () { //TODO: Fix me, I'm not recursive!
+		if (parent == null)
+			return ".";
+		else {
+			return "..";
+		}
+	}
+	
 	public bool can_be_removed () {
 		return Project.opened.pages.size > 1 && !is_home;
 	}
@@ -93,7 +101,7 @@ public class Ligo.Pages.Base : GLib.Object {
 		is_home = data.get_boolean_member ("is_home");
 	}
 	
-	public virtual void inject_schema (ref Json.Builder schema) {
+	public virtual void inject_schema (Json.Builder schema) {
 		schema.set_member_name ("page");
 		schema.begin_object ();
 		schema.set_member_name ("name");
@@ -139,8 +147,9 @@ namespace Ligo.Pages {
 			var child_root = IO.read_json (path);
 			var child = Pages.parse (ref child_root, page);
 			page.children.add (child);
-			info ("Loaded %i child pages", page.children.size);
 		});
+		if (page.children.size > 0)
+			info ("Loaded %i child pages", page.children.size);
 		
 		return page;
 	}

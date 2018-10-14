@@ -9,11 +9,9 @@
     </div>
     </header>
     <div class="pa4 ph7-l georgia mw9-l center">
-        {{#content}}
-        <p class="f5 f3-ns lh-copy measure georgia">
-            {{.}}
-        </p>
-        {{/content}}
+        <div class="f5 f3-ns lh-copy measure georgia">
+            {{{content}}}
+        </div>
         <p class="f5 f3-ns lh-copy measure georgia">
             <a class="link no-underline f4 fw7 dib hover-{{theme.color}} black" href="{{url}}">Read More</a>
         </p>

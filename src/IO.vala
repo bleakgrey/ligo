@@ -40,7 +40,6 @@ public class Ligo.IO {
 	
 	
 	
-	
 	public delegate void DirForEachDelegate (File file, string path);
 	public void dir_foreach (string path, DirForEachDelegate d) {
 		if (!dir_exists (path))

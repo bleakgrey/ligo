@@ -78,13 +78,12 @@ public class Ligo.Project : GLib.Object {
 			warning ("Can't read page: %s", path);
 		else {
 			page.permalink = id;
-			//page.path = path;
 			pages.add (page);
 			main_window.sidebar.add_page (page);
 		}
 	}
 	
-	public Json.Builder build_schema () {
+	public Json.Builder build_schema (Pages.Base page) {
 		var schema = new Json.Builder ();
 		
 		// General site info
@@ -93,6 +92,8 @@ public class Ligo.Project : GLib.Object {
 		schema.begin_object ();
 		schema.set_member_name ("name");
 		schema.add_string_value (name);
+		schema.set_member_name ("root");
+		schema.add_string_value (page.get_site_root_url ());
 		schema.end_object ();
 		
 		// Navigation links
@@ -104,7 +105,7 @@ public class Ligo.Project : GLib.Object {
 				schema.set_member_name ("name");
 				schema.add_string_value (page.name);
 				schema.set_member_name ("url");
-				schema.add_string_value (page.get_url ());
+				schema.add_string_value (page.get_url ()); //TODO: Account for current level
 				schema.end_object ();
 			}
 			return true;
@@ -138,8 +139,8 @@ public class Ligo.Project : GLib.Object {
 		info ("Exporting page: %s", page.get_url ());
 		
 		//Prepare schema
-		var schema = build_schema ();
-		page.inject_schema (ref schema);
+		var schema = build_schema (page);
+		page.inject_schema (schema);
 		schema.end_object ();
 		schema.end_object ();
 		
@@ -153,7 +154,6 @@ public class Ligo.Project : GLib.Object {
 		if (page.parent != null) {
 			var dir_path = output_path.replace (page.permalink + ".html", "");
 			IO.make_dir (dir_path);
-			info ("Created directory: %s", dir_path);
 		}
 		var schema_path = Path.build_filename (path, "export", page.get_url () + ".schema.json");
 		IO.overwrite_file (schema_path, schema_data);
