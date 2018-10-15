@@ -11,7 +11,7 @@ public class Ligo.Pages.Base : GLib.Object {
 	public bool show_in_navigation {get; set;}
 	public bool is_home {get; set;}
 	
-	public weak Pages.Base? parent;
+	public weak Pages.Base? parent {get; set;}
 	public Gee.List<Pages.Base> children {get; set;}
 	
 	public string get_path () {
@@ -55,12 +55,31 @@ public class Ligo.Pages.Base : GLib.Object {
 			return parent.get_url ().replace (".html", "") + "/" + base_path;
 	}
 	
-	public string get_site_root_url () { //TODO: Fix me, I'm not recursive!
-		if (parent == null)
-			return ".";
-		else {
-			return "..";
+	public string get_relative_url (Pages.Base page) {
+		return page.get_site_root_url () + "/" + get_url ();
+	}
+	
+	public string get_site_root_url () { //TODO: This works but it's a mess and I'm ashamed of myself
+		var lvl = get_level ();
+		switch (lvl) {
+			case 1:
+				return ".";
+			case 2:
+				return "..";
+			default:
+				var a = "";
+				for (var i=1; i <= lvl - 1; i++) {
+					a += "../";
+				}
+				return a;
 		}
+	}
+	
+	public int get_level () {
+		if (parent == null)
+			return 1;
+		else
+			return parent.get_level () + 1;
 	}
 	
 	public bool can_be_removed () {

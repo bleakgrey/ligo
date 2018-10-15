@@ -44,6 +44,8 @@ public class Ligo.Pages.Blog : Pages.Base {
 			schema.add_string_value (article.date);
 			schema.set_member_name ("content");
 			schema.add_string_value (article.render_markdown ());
+			schema.set_member_name ("url");
+			schema.add_string_value (page.get_url ());
 			schema.end_object ();
 			return true;
 		});

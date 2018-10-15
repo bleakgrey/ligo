@@ -8,10 +8,10 @@ public class Ligo.Project : GLib.Object {
 	public string path {get; set;}
 	public string name {get; set;}
 	public string description {get; set;}
-	public Theme theme;
+	public Theme theme {get; set;}
 	
 	public Gee.List<Pages.Base> pages {get; set;}
-	public Pages.Base? home_page;
+	public Pages.Base? home_page {get; set;}
 	
 	public Project () {
 		name = _("Unnamed Project");
@@ -80,6 +80,9 @@ public class Ligo.Project : GLib.Object {
 			page.permalink = id;
 			pages.add (page);
 			main_window.sidebar.add_page (page);
+			
+			if (page.is_home)
+				home_page = page;
 		}
 	}
 	
@@ -94,18 +97,21 @@ public class Ligo.Project : GLib.Object {
 		schema.add_string_value (name);
 		schema.set_member_name ("root");
 		schema.add_string_value (page.get_site_root_url ());
+		schema.set_member_name ("home_url");
+		schema.add_string_value (home_page.get_relative_url (page));
 		schema.end_object ();
 		
 		// Navigation links
 		schema.set_member_name ("navigation");
 		schema.begin_array ();
-		pages.@foreach (page => {
-			if (page.show_in_navigation) {
+		pages.@foreach (nav_page => {
+			if (nav_page.show_in_navigation) {
 				schema.begin_object ();
 				schema.set_member_name ("name");
-				schema.add_string_value (page.name);
+				schema.add_string_value (nav_page.name);
 				schema.set_member_name ("url");
-				schema.add_string_value (page.get_url ()); //TODO: Account for current level
+				var rel = nav_page.get_relative_url (page);
+				schema.add_string_value (rel);
 				schema.end_object ();
 			}
 			return true;
@@ -125,17 +131,12 @@ public class Ligo.Project : GLib.Object {
 	public void export () {
 		main_window.update_progress (_("Rendering pages..."));
 		pages.@foreach (page => {
-			export_page (page);
-			page.children.@foreach (child => {
-				export_page (child);
-				return true;
-			});
-			return true;
+			return export_page (page);
 		});
 		main_window.update_progress ();
 	}
 	
-	public void export_page (Pages.Base page) {
+	public bool export_page (Pages.Base page) {
 		info ("Exporting page: %s", page.get_url ());
 		
 		//Prepare schema
@@ -163,6 +164,14 @@ public class Ligo.Project : GLib.Object {
 			.printf (schema_path, theme.partials_path, layout_path);
 		Process.spawn_command_line_sync (cmd, out stdout);
 		IO.overwrite_file (output_path, stdout);
+		//TODO: Remove schema files
+		
+		//Now export children
+		page.children.@foreach (child => {
+			return export_page (child);
+		});
+		
+		return true;
 	}
 	
 }

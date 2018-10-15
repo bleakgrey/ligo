@@ -6,8 +6,8 @@ public class Ligo.Widgets.Tabs.Startup : Base {
 	public Granite.Widgets.Welcome welcome;
 
 	construct {
-		welcome = new Granite.Widgets.Welcome (_("No Pages Open"), _("Select a page to edit"));
-		welcome.append ("document-new", _("New Page"), _("Add a new site page"));
+		welcome = new Granite.Widgets.Welcome (_("Nothing to See Here"), _("Select a page to edit"));
+		welcome.append ("document-new", _("New Page"), _("Create a new page"));
 		welcome.append ("document-open", _("Open Project"), _("Open a site for editing"));
 		welcome.activated.connect ((i) => {
 			switch (i) {

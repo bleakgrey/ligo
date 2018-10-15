@@ -3,7 +3,9 @@
     <div class="mw9 center pa4 pt5-ns ph7-l">
         <h5 class="f6 ttu tracked">{{date}}</h5>
         <h3 class="f2 f1-m measure-narrow lh-title mv0">
-            <span class="bg-white lh-copy {{theme.color}} pa1 tracked-tight">{{name}}</span>
+            <a href="{{url}}">
+                <span class="bg-white lh-copy {{theme.color}} pa1 tracked-tight">{{name}}</span>
+            </a>
         </h3>
         <h4 class="f3 fw1 georgia i">{{description}}</h4>
     </div>
