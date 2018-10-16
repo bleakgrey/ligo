@@ -37,8 +37,8 @@ public class Ligo.Widgets.Tabs.PageEditor : Base {
 		on_content_changed ();
 		var status_bar = main_window.status_bar;
 		status_bar.show ();
-		status_bar.page_settings_button.show ();
 		status_bar.add_page_button.hide ();
+		status_bar.delete_page_button.hide ();
 	}
 	
 	public void on_content_changed () {

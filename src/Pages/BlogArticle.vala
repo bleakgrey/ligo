@@ -17,7 +17,7 @@ public class Ligo.Pages.BlogArticle : Pages.Text {
 	public BlogArticle () {}
 	
 	public override string get_display_type () {
-		return _("Article");
+		return _("Blog Article");
 	}
 	
 	public override string get_page_type () {

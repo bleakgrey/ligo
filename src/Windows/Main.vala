@@ -2,13 +2,12 @@ using Gtk;
 
 public class Ligo.Windows.Main: Gtk.Window {
 
-	public Widgets.HeaderBar header;
 	public Paned paned;
-	public Widgets.Sidebar sidebar;
+	public Box box;
+	public Widgets.HeaderBar header;
 	public Widgets.StatusBar status_bar;
 	public Widgets.Notebook notebook;
-	public Box box;
-	
+	public Widgets.Sidebar sidebar;
 	public Overlay overlay;
 	public Granite.Widgets.OverlayBar overlay_bar;
 
@@ -17,8 +16,8 @@ public class Ligo.Windows.Main: Gtk.Window {
 		default_width = 800;
 		
 		sidebar = new Widgets.Sidebar ();
-		status_bar = new Widgets.StatusBar ();
 		notebook = new Widgets.Notebook ();
+		status_bar = new Widgets.StatusBar ();
 		
 		var overlay = new Gtk.Overlay ();
 		overlay_bar = new Granite.Widgets.OverlayBar (overlay);

@@ -86,6 +86,16 @@ public class Ligo.Pages.Base : GLib.Object {
 		return Project.opened.pages.size > 1 && !is_home;
 	}
 	
+	public void remove () {
+		var project = Project.opened;
+		if (parent == null)
+			project.pages.remove (this);
+		else
+			parent.children.remove (this);
+			
+		project.save (); //TODO: Remove page json
+	}
+	
 	public virtual void save () {
 		var builder = new Json.Builder ();
 		builder.begin_object ();

@@ -44,4 +44,6 @@ public class Ligo.Widgets.Tabs.Base : Granite.Widgets.Tab {
 		on_switched ();
 	}
 	
+	public virtual void on_add_child () {}
+	
 }

@@ -79,7 +79,7 @@ public class Ligo.Project : GLib.Object {
 		else {
 			page.permalink = id;
 			pages.add (page);
-			main_window.sidebar.add_page (page);
+			main_window.sidebar.structure.add_page (page);
 			
 			if (page.is_home)
 				home_page = page;
