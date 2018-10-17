@@ -10,6 +10,8 @@ namespace Ligo {
     
     public class Application : Granite.Application {
     
+    	public signal void export_progress (int total, int completed);
+    
         construct {
             application_id = "com.github.bleakgrey.ligo";
             flags = ApplicationFlags.FLAGS_NONE;

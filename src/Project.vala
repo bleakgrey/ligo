@@ -4,6 +4,7 @@ using Gee;
 public class Ligo.Project : GLib.Object {
 
     public static Project? opened;
+    public static Thread<bool>? export_thread;
 	
 	public string path {get; set;}
 	public string name {get; set;}
@@ -128,15 +129,29 @@ public class Ligo.Project : GLib.Object {
 		return schema;
 	}
 	
-	public void export () {
-		main_window.update_progress (_("Rendering pages..."));
-		pages.@foreach (page => {
-			return export_page (page);
-		});
-		main_window.update_progress ();
+	public void start_export () {
+		export_thread = new Thread<bool>.try ("Export Thread", export);
 	}
 	
-	public bool export_page (Pages.Base page) {
+	private bool export () {
+		GLib.Thread.usleep (200000);
+		//main_window.update_progress (_("Rendering pages..."));
+		
+		var total = pages.size;
+		int current = 0;
+		pages.@foreach (page => {
+			current++;
+			app.export_progress (total, current);
+			return export_page (page);
+		});
+		//main_window.update_progress ();
+		app.export_progress (total, total + 1);
+		
+		export_thread = null;
+		return true;
+	}
+	
+	private bool export_page (Pages.Base page) {
 		info ("Exporting page: %s", page.get_url ());
 		
 		//Prepare schema
