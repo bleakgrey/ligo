@@ -41,6 +41,7 @@ public class Ligo.Widgets.Tabs.Base : Granite.Widgets.Tab {
 	}
 	public virtual void on_save () {
 		has_changed = false;
+		app.project_changed ();
 		on_switched ();
 	}
 	

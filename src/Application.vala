@@ -10,6 +10,7 @@ namespace Ligo {
     
     public class Application : Granite.Application {
     
+    	public signal void project_changed ();
     	public signal void export_progress (int total, int completed);
     
         construct {

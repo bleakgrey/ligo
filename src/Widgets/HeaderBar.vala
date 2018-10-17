@@ -7,10 +7,13 @@ public class Ligo.Widgets.HeaderBar: Gtk.HeaderBar {
 	public MenuButton publish_button;
 	public Button settings_button;
 	
-	public Popover popover;
-	public Grid grid;
-	public Label publish_status;
-	public ProgressBar publish_progress;
+	private Popover popover;
+	private Grid grid;
+	private Label publish_status;
+	private ProgressBar publish_progress;
+	private Overlay publish_overlay;
+	private Image publish_icon;
+	private Image publish_icon_emblem;
 	
 	construct {
 		open_button = new Button.from_icon_name ("document-open", IconSize.LARGE_TOOLBAR);
@@ -36,8 +39,19 @@ public class Ligo.Widgets.HeaderBar: Gtk.HeaderBar {
 		grid.attach (publish_progress, 0, 2);
 		grid.show_all ();
 		
+		publish_icon = new Image.from_icon_name ("applications-internet", IconSize.LARGE_TOOLBAR); //document-send
+		publish_icon_emblem = new Image.from_icon_name ("process-completed", IconSize.MENU);
+		publish_icon_emblem.halign = Align.END;
+		publish_icon_emblem.valign = Align.END;
+		
+		publish_overlay = new Overlay ();
+		publish_overlay.add (publish_icon);
+		publish_overlay.add_overlay (publish_icon_emblem);
+		publish_overlay.set_overlay_pass_through (publish_icon_emblem, true);
+		publish_overlay.show_all ();
+		
 		publish_button = new MenuButton ();
-		publish_button.image = new Image.from_icon_name ("document-send", IconSize.LARGE_TOOLBAR);
+		publish_button.image = publish_overlay; //new Image.from_icon_name ("document-send", IconSize.LARGE_TOOLBAR);
 		publish_button.tooltip_text = _("Publish");
 		publish_button.toggled.connect (() => {
 			if (publish_button.active && Project.export_thread == null)
@@ -65,6 +79,7 @@ public class Ligo.Widgets.HeaderBar: Gtk.HeaderBar {
 	}
 
 	public HeaderBar () {
+		app.project_changed.connect (on_project_changed);
 		app.export_progress.connect (on_export_progress);
 	}
 
@@ -74,14 +89,20 @@ public class Ligo.Widgets.HeaderBar: Gtk.HeaderBar {
 		Project.opened.start_export ();
 	}
 	
+	private void on_project_changed () {
+		publish_icon_emblem.icon_name = "software-update-available";
+	}
+	
 	private void on_export_progress (int total, int completed) {
 		if (completed > total) {
 			publish_status.label = _("Publish Successful!");
 			publish_progress.fraction = 1;
+			publish_icon_emblem.icon_name = "process-completed";
 		}
 		else {
 			publish_status.label = _("Publishing %i/%i...").printf (completed, total);
 			publish_progress.fraction = (double) completed / total;
+			publish_icon_emblem.icon_name = "process-working-symbolic";
 		}
 	}
 
