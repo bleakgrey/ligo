@@ -56,5 +56,12 @@ public class Ligo.Windows.Main: Gtk.Window {
 			overlay_bar.label = text;
 		}
 	}
+	
+	public override bool delete_event (Gdk.EventAny event) {
+		var proj = Project.opened;
+		if (proj.dirty)
+			proj.save ();
+		return false;
+	}
 
 }

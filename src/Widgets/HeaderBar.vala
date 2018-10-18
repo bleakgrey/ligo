@@ -84,8 +84,15 @@ public class Ligo.Widgets.HeaderBar: Gtk.HeaderBar {
 	}
 
 	public void export () {
+		if (!Project.opened.dirty) {
+			publish_status.label = _("All Pages Up to Date");
+			publish_progress.hide ();
+			return;
+		}
+	
 		publish_status.label = _("Preparing...");
 		publish_progress.fraction = 0;
+		publish_progress.show ();
 		Project.opened.start_export ();
 	}
 	

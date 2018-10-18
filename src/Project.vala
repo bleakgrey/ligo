@@ -6,6 +6,7 @@ public class Ligo.Project : GLib.Object {
     public static Project? opened;
     public static Thread<bool>? export_thread;
 	
+	public bool dirty = false;
 	public string path {get; set;}
 	public string name {get; set;}
 	public string description {get; set;}
@@ -35,6 +36,7 @@ public class Ligo.Project : GLib.Object {
 		// General info
 		// opened.name = root.get_string_member ("name");
 		// opened.description = root.get_string_member ("description");
+		opened.dirty = root.get_boolean_member ("dirty");
 		
 		// Load pages
 		var pages_array = root.get_array_member ("pages");
@@ -46,6 +48,8 @@ public class Ligo.Project : GLib.Object {
 		info ("Loaded %i pages", opened.pages.size);
 		
 		main_window.notebook.open_startup ();
+		if (opened.dirty)
+			app.project_changed ();
 	}
 	
 	public void save () {
@@ -54,6 +58,8 @@ public class Ligo.Project : GLib.Object {
 		builder.begin_object ();
 		builder.set_member_name ("version");
 		builder.add_int_value (1);
+		builder.set_member_name ("dirty");
+		builder.add_boolean_value (dirty);
 		builder.set_member_name ("pages");
 		builder.begin_array ();
 		pages.@foreach (page => {
@@ -68,6 +74,16 @@ public class Ligo.Project : GLib.Object {
 		var data = generator.to_data (null);
 		
 		IO.overwrite_file (manifest_path, data);
+		dirty = false;
+		
+		info ("Saved project manifest");
+	}
+	
+	public void save_dirty () {
+		dirty = true;
+		save ();
+		dirty = true;
+		app.project_changed ();
 	}
 	
 	private void load_page (string path, string id) {
@@ -148,6 +164,8 @@ public class Ligo.Project : GLib.Object {
 		app.export_progress (total, total + 1);
 		
 		export_thread = null;
+		dirty = false;
+		save ();
 		return true;
 	}
 	

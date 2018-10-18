@@ -74,4 +74,12 @@ public class Ligo.Widgets.Notebook : Granite.Widgets.DynamicNotebook {
 		close_startup ();
 	}
 	
+	public void close_page (Pages.Base page) {
+		tabs.@foreach (tab => {
+			var custom_tab = (Widgets.Tabs.Base) tab;
+			if (custom_tab.is_page_owner (page))
+				custom_tab.close ();
+		});
+	}
+	
 }

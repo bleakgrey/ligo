@@ -3,6 +3,8 @@ using Gee;
 
 public class Ligo.Pages.Base : GLib.Object {
 	
+	public signal void on_removed ();
+	
 	public const string TYPE = "unknown";
 	
 	public string icon_name {get; set;}
@@ -92,8 +94,10 @@ public class Ligo.Pages.Base : GLib.Object {
 			project.pages.remove (this);
 		else
 			parent.children.remove (this);
-			
-		project.save (); //TODO: Remove page json
+		
+		//TODO: Remove page json
+		main_window.notebook.close_page (this);
+		Project.opened.save_dirty ();
 	}
 	
 	public virtual void save () {
@@ -107,6 +111,7 @@ public class Ligo.Pages.Base : GLib.Object {
 		var data = generator.to_data (null);
 		
 		IO.overwrite_file (get_path (), data);
+		Project.opened.save_dirty ();
 	}
 	
 	public virtual void write_save_data (ref Json.Builder builder) {

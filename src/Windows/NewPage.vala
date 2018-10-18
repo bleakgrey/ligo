@@ -92,7 +92,6 @@ public class Ligo.Windows.NewPage : Gtk.Dialog {
 		}
 		
 		page.save ();
-		project.save ();
 		close ();
 	}
 	
