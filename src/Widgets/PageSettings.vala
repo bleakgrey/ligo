@@ -5,8 +5,8 @@ public class Ligo.Widgets.PageSettings : Grid {
 	private int i = 0;
 
 	construct {
-		//column_spacing = 12;
-		//row_spacing = 6;
+		column_spacing = 6;
+		row_spacing = 6;
 		margin = 6;
 	}
 

@@ -147,8 +147,14 @@ public class Ligo.Pages.Base : GLib.Object {
 	public virtual void build_settings (Widgets.PageSettings settings) {
 		settings.add_section (_("General"));
 		
-		var name_entry = new Widgets.Forms.PermalinkEntry (this);
-		settings.add_widget (name_entry, _("Permalink:"));
+		var name_entry = new Widgets.Forms.StringEntry (this, "name");
+		settings.add_widget (name_entry, _("Name:"));
+		
+		var permalink_entry = new Widgets.Forms.PermalinkEntry (this);
+		settings.add_widget (permalink_entry, _("Permalink:"));
+		
+		var nav_switch = new Widgets.Forms.BooleanSwitch (this, "show_in_navigation");
+		settings.add_widget (nav_switch, _("Navigation:"));
 	}
 	
 }
