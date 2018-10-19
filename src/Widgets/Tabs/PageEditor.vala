@@ -4,7 +4,7 @@ using Granite;
 public class Ligo.Widgets.Tabs.PageEditor : Base {
 	
 	public Widgets.SourceView editor;
-	protected Pages.Text my_page;
+	public new Pages.Text my_page;
 	
 	private GtkSpell.Checker? spell;
 	private string lang_dict;
@@ -26,9 +26,8 @@ public class Ligo.Widgets.Tabs.PageEditor : Base {
 		editor.source_buffer.end_not_undoable_action ();
 		on_content_changed ();
 		
-		editor.source_buffer.changed.connect (() => {
-			has_changed = true;
-		});
+		page.changed.connect (on_changed);
+		editor.source_buffer.changed.connect (on_changed);
 		//attach_spell_check ();
 	}
 	
@@ -39,6 +38,9 @@ public class Ligo.Widgets.Tabs.PageEditor : Base {
 		status_bar.show ();
 		status_bar.add_page_button.hide ();
 		status_bar.delete_page_button.hide ();
+		
+		var settings = main_window.sidebar.page_settings;
+		my_page.build_settings (settings);
 	}
 	
 	public void on_content_changed () {

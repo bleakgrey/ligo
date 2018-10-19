@@ -31,6 +31,7 @@ public class Ligo.Widgets.Notebook : Granite.Widgets.DynamicNotebook {
 			tab_bar_behavior = Granite.Widgets.DynamicNotebook.TabBarBehavior.NEVER;
 			insert_tab (startup_tab, -1);
 		}
+		main_window.sidebar.page_settings.clear ();
 	}
 	
 	public void close_startup () {
@@ -47,7 +48,11 @@ public class Ligo.Widgets.Notebook : Granite.Widgets.DynamicNotebook {
 			tab.on_switched ();
 	}
 	
-	private void on_tab_removed (Granite.Widgets.Tab tab) {
+	private void on_tab_removed (Granite.Widgets.Tab removed) {
+		var tab = removed as Widgets.Tabs.Base;
+		if (tab.has_changed)
+			tab.on_save ();
+		
 		if (n_tabs <= 0)
 			open_startup ();
 	}

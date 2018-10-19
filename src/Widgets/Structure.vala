@@ -14,7 +14,9 @@ public class Ligo.Widgets.Structure : Granite.Widgets.SourceList {
 			page = new_page;
 			icon = new ThemedIcon (page.icon_name);
 			name = page.name;
-			activated.connect (() => main_window.notebook.open_page (page));
+			activated.connect (() => {
+				main_window.notebook.open_page (page);
+			});
 		}
 		
 		public override Gtk.Menu? get_context_menu () {

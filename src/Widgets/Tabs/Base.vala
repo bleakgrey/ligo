@@ -6,17 +6,7 @@ public class Ligo.Widgets.Tabs.Base : Granite.Widgets.Tab {
 	public Gtk.ScrolledWindow scroller;
 	public bool has_status_bar;
 	public bool configurable;
-	
-	private bool _has_changed;
-	public bool has_changed {
-		get {
-			return _has_changed;
-		}
-		set {
-			_has_changed = value;
-			on_ui_update ();
-		}
-	}
+	public bool has_changed {get; set;}
 	
 	public Base () {
 		base ();
@@ -28,8 +18,9 @@ public class Ligo.Widgets.Tabs.Base : Granite.Widgets.Tab {
 		page = scroller;
 	}
 	
-	public virtual bool is_page_owner (Pages.Base page) {
-		return false;
+	public virtual void on_changed () {
+		has_changed = true;
+		on_ui_update ();
 	}
 	
 	public virtual void on_ui_update () {
@@ -38,7 +29,9 @@ public class Ligo.Widgets.Tabs.Base : Granite.Widgets.Tab {
 	
 	public virtual void on_switched () {
 		on_ui_update ();
+		main_window.sidebar.page_settings.clear ();
 	}
+	
 	public virtual void on_save () {
 		has_changed = false;
 		app.project_changed ();
@@ -46,5 +39,13 @@ public class Ligo.Widgets.Tabs.Base : Granite.Widgets.Tab {
 	}
 	
 	public virtual void on_add_child () {}
+	
+	public virtual bool is_page_owner (Pages.Base page) {
+		return false;
+	}
+	
+	public virtual Pages.Base? get_page () {
+		return null;
+	}
 	
 }

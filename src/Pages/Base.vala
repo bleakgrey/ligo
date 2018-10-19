@@ -3,7 +3,7 @@ using Gee;
 
 public class Ligo.Pages.Base : GLib.Object {
 	
-	public signal void on_removed ();
+	public signal void changed ();
 	
 	public const string TYPE = "unknown";
 	
@@ -142,6 +142,13 @@ public class Ligo.Pages.Base : GLib.Object {
 		schema.add_string_value (name);
 		schema.set_member_name ("type");
 		schema.add_string_value (get_page_type ());
+	}
+	
+	public virtual void build_settings (Widgets.PageSettings settings) {
+		settings.add_section (_("General"));
+		
+		var name_entry = new Widgets.Forms.PermalinkEntry (this);
+		settings.add_widget (name_entry, _("Permalink:"));
 	}
 	
 }

@@ -32,18 +32,18 @@ public class Ligo.Windows.NewPage : Gtk.Dialog {
 		permalink.hexpand = true;
 		page_type = new Widgets.Forms.PageTypeSelector (allowed_types);
 		
-		grid.attach (new Widgets.FormLabel (_("Name:")), 0, 1);
+		grid.attach (new Widgets.Forms.Label (_("Name:")), 0, 1);
 		grid.attach (page_name, 1, 1);
-		grid.attach (new Widgets.FormLabel (_("Permalink:")), 0, 2);
+		grid.attach (new Widgets.Forms.Label (_("Permalink:")), 0, 2);
 		grid.attach (permalink, 1, 2);
-		grid.attach (new Widgets.FormLabel (_("Type:")), 0, 3);
+		grid.attach (new Widgets.Forms.Label (_("Type:")), 0, 3);
 		grid.attach (page_type, 1, 3);
 		if (allow_navigation) {
 			show_in_navigation = new Switch ();
 			show_in_navigation.halign = Align.START;
 			show_in_navigation.active = true;
 		
-			grid.attach (new Widgets.FormLabel (_("Show in Navigation:")), 0, 4);
+			grid.attach (new Widgets.Forms.Label (_("Show in Navigation:")), 0, 4);
 			grid.attach (show_in_navigation, 1, 4);
 		}
 		

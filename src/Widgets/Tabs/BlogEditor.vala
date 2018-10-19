@@ -3,7 +3,7 @@ using Granite;
 
 public class Ligo.Widgets.Tabs.BlogEditor : Base {
 	
-	protected Pages.Blog my_page;
+	public new Pages.Blog my_page;
 	
 	public Gtk.TreeView tree;
 	public Gtk.ListStore list_store;
@@ -28,6 +28,11 @@ public class Ligo.Widgets.Tabs.BlogEditor : Base {
 		scroller.show_all ();
 	}
 	
+	public override void on_switched () {
+		base.on_switched ();
+		my_page.build_settings (main_window.sidebar.page_settings);
+	}
+	
 	private void update_list () {
 		list_store.clear ();
 		my_page.children.@foreach (page => {
@@ -43,10 +48,6 @@ public class Ligo.Widgets.Tabs.BlogEditor : Base {
 		var i = path.get_indices () [0];
 		var page = my_page.children.@get (i);
 		main_window.notebook.open_page (page);
-	}
-	
-	public override bool is_page_owner (Pages.Base page) {
-		return this.my_page == page;
 	}
 	
 	public override void on_ui_update () {
@@ -71,5 +72,10 @@ public class Ligo.Widgets.Tabs.BlogEditor : Base {
 		Type[] types = { typeof (Pages.BlogArticle) };
 		Windows.NewPage.open (types, my_page);
 	}
+	
+	public override bool is_page_owner (Pages.Base page) {
+		return my_page == page;
+	}
+	
 	
 }
