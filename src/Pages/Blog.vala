@@ -41,7 +41,8 @@ public class Ligo.Pages.Blog : Pages.Base {
 			schema.set_member_name ("description");
 			schema.add_string_value (article.description);
 			schema.set_member_name ("date");
-			schema.add_string_value (article.date);
+			var localized_date = new DateTime.from_unix_local (article.date).format (Widgets.Forms.DatePicker.FORMAT);
+			schema.add_string_value (localized_date); //
 			schema.set_member_name ("content");
 			schema.add_string_value (article.render_markdown ());
 			schema.set_member_name ("url");

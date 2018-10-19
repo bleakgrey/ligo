@@ -22,7 +22,7 @@ public class Ligo.Widgets.Forms.StringEntry : Entry {
 			Value val = Value (TYPE);
 			val.set_string (text);
 			my_object.set_property (param, val);
-			notify_property ("changed");
+			GLib.Signal.emit_by_name (my_object, "changed");
 		});
 		
 	}

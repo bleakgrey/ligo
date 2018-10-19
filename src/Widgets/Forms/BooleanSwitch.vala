@@ -23,8 +23,8 @@ public class Ligo.Widgets.Forms.BooleanSwitch : Switch {
 			Value val = Value (TYPE);
 			val.set_boolean (state);
 			my_object.set_property (param, val);
-			notify_property ("changed");
-			return state;
+			GLib.Signal.emit_by_name (my_object, "changed");
+			return false;
 		});
 		
 	}

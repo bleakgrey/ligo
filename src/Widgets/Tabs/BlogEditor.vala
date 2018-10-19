@@ -38,7 +38,8 @@ public class Ligo.Widgets.Tabs.BlogEditor : Base {
 		my_page.children.@foreach (page => {
 			var article = page as Pages.BlogArticle;
 			list_store.append (out iter);
-			list_store.set (iter, 0, article.name, 1, article.date);
+			var date = new GLib.DateTime.from_unix_local (article.date).format (Widgets.Forms.DatePicker.FORMAT);
+			list_store.set (iter, 0, article.name, 1, date);
 			return true;
 		});
 		on_ui_update ();

@@ -11,6 +11,7 @@ public class Ligo.Widgets.Sidebar : Box {
 	construct {
 		orientation = Orientation.VERTICAL;
 		get_style_context ().add_class (Gtk.STYLE_CLASS_SIDEBAR);
+		set_size_request (250, 250);
 		
 		structure = new Widgets.Structure ();
 		page_settings = new Widgets.PageSettings ();

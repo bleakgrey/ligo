@@ -37,7 +37,10 @@ public class Ligo.Widgets.Forms.PermalinkEntry : Entry {
 			.replace (" ", "-")
 			.replace (".", "")
 			.replace (",", "")
-			.replace ("'", "");
+			.replace ("'", "")
+			.replace ("~", "")
+			.replace ("?", "")
+			.replace ("!", "");
 		base.set_text (normalized);
 	}
 

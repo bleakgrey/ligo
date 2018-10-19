@@ -48,6 +48,7 @@ executable(
     'src/Widgets/Forms/BooleanSwitch.vala',
     'src/Widgets/Forms/PermalinkEntry.vala',
     'src/Widgets/Forms/PageTypeSelector.vala',
+    'src/Widgets/Forms/DatePicker.vala',
     'src/Windows/NewPage.vala',
     'src/Windows/Main.vala',
     dependencies: [
