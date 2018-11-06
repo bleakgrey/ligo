@@ -26,6 +26,8 @@ public class Ligo.Widgets.Tabs.BlogEditor : Base {
 		
 		scroller.add (tree);
 		scroller.show_all ();
+		
+		page.changed.connect (on_changed);
 	}
 	
 	public override void on_switched () {

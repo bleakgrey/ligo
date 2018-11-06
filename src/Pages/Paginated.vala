@@ -2,13 +2,14 @@ using Gee;
 
 public class Ligo.Pages.Paginated : Pages.Base {
 
-	public int articles_per_page {get; set;}
+	public int64 items_per_page {get; set;}
 	public Gee.List<Base> items {get; set;}
 	public Pages.Base? prev {get; set;}
 	public Pages.Base? next {get; set;}
+	public Paginator? paginator {get; set;}
 
 	construct {
-		articles_per_page = 1;
+		items_per_page = 10;
 		items = new ArrayList<Base> ();
 		prev = null;
 		next = null;
@@ -16,11 +17,22 @@ public class Ligo.Pages.Paginated : Pages.Base {
 
 	public Paginated () {}
 
+	public override void write_save_data (ref Json.Builder builder) {
+		base.write_save_data (ref builder);
+		builder.set_member_name ("items_per_page");
+		builder.add_int_value (items_per_page);
+	}
+	
+	public override void read_save_data (ref Json.Object data) {
+		base.read_save_data (ref data);
+		items_per_page = data.get_int_member ("items_per_page");
+	}
+
 	public override void inject_schema (Json.Builder schema) {
 		base.inject_schema (schema);
 		
 		if (children.size > 0) {
-			var paginator = new Paginator (this, children, articles_per_page);
+			paginator = new Paginator (this, children, items_per_page);
 			paginator.collate ();
 		}
 		
@@ -37,6 +49,9 @@ public class Ligo.Pages.Paginated : Pages.Base {
 		schema.begin_array ();
 		items.@foreach (page => {
 			var article = page as BlogArticle;
+			if (article == null)
+				return true;
+			
 			schema.begin_object ();
 			schema.set_member_name ("name");
 			schema.add_string_value (article.name);
@@ -53,6 +68,14 @@ public class Ligo.Pages.Paginated : Pages.Base {
 			return true;
 		});
 		schema.end_array ();
+	}
+
+	public override void build_settings (Widgets.PageSettings settings) {
+		base.build_settings (settings);
+		
+		settings.add_section (_("Pagination"));
+		var pages_entry = new Widgets.Forms.IntSpinner (this, "items_per_page", 1, 20);
+		settings.add_widget (pages_entry, _("Max Items:"));
 	}
 
 }

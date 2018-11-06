@@ -51,6 +51,7 @@ executable(
     'src/Widgets/Forms/PermalinkEntry.vala',
     'src/Widgets/Forms/PageTypeSelector.vala',
     'src/Widgets/Forms/DatePicker.vala',
+    'src/Widgets/Forms/IntSpinner.vala',
     'src/Windows/NewPage.vala',
     'src/Windows/Main.vala',
     dependencies: [
