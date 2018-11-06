@@ -7,7 +7,7 @@ public class Ligo.Widgets.Forms.PageTypeSelector : ComboBox {
 
 	public Type[]? allowed_types;
 
-	construct {		
+	construct {
 		list_store = new Gtk.ListStore (2, typeof (string), typeof (string));
 		
 		var icon = new Gtk.CellRendererPixbuf ();

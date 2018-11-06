@@ -45,6 +45,7 @@ public class Ligo.Windows.Main: Gtk.Window {
 		application = _application;
 		icon_name = "com.github.bleakgrey.ligo";
 		resizable = true;
+		title = _("Ligo");
 	}
 	
 	public void update_progress (string? text = null) {

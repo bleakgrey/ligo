@@ -1,6 +1,6 @@
 using Gee;
 
-public class Ligo.Pages.Blog : Pages.Base {
+public class Ligo.Pages.Blog : Pages.Paginated {
 	
 	public new const string TYPE = "blog";
 	
@@ -20,39 +20,6 @@ public class Ligo.Pages.Blog : Pages.Base {
 	
 	public override Widgets.Tabs.Base? create_tab () {
 		return new Widgets.Tabs.BlogEditor (this);
-	}
-
-	public override void inject_schema (Json.Builder schema) {
-		base.inject_schema (schema);
-		schema.set_member_name ("pagination");
-		schema.begin_object ();
-		schema.set_member_name ("prev_page_url");
-		schema.add_string_value ("#");
-		schema.set_member_name ("next_page_url");
-		schema.add_string_value ("#");
-		
-		schema.set_member_name ("items");
-		schema.begin_array ();
-		children.@foreach (page => {
-			var article = page as BlogArticle;
-			schema.begin_object ();
-			schema.set_member_name ("name");
-			schema.add_string_value (article.name);
-			schema.set_member_name ("description");
-			schema.add_string_value (article.description);
-			schema.set_member_name ("date");
-			var localized_date = new DateTime.from_unix_local (article.date).format (Widgets.Forms.DatePicker.FORMAT);
-			schema.add_string_value (localized_date); //
-			schema.set_member_name ("content");
-			schema.add_string_value (article.render_markdown ());
-			schema.set_member_name ("url");
-			schema.add_string_value (page.get_url ());
-			schema.end_object ();
-			return true;
-		});
-		schema.end_array ();
-		
-		schema.end_object ();
 	}
 
 }

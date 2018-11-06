@@ -169,7 +169,7 @@ public class Ligo.Project : GLib.Object {
 		return true;
 	}
 	
-	private bool export_page (Pages.Base page) {
+	public bool export_page (Pages.Base page) {
 		info ("Exporting page: %s", page.get_url ());
 		
 		//Prepare schema
@@ -196,8 +196,9 @@ public class Ligo.Project : GLib.Object {
 		var cmd = "chevron -d \"%s\" -p \"%s\" -e \"part\" \"%s\""
 			.printf (schema_path, theme.partials_path, layout_path);
 		Process.spawn_command_line_sync (cmd, out stdout);
-		IO.overwrite_file (output_path, stdout);
-		//TODO: Remove schema files
+		if (stdout != "")
+			IO.overwrite_file (output_path, stdout);
+		//IO.remove_file (schema_path);
 		
 		//Now export children
 		page.children.@foreach (child => {

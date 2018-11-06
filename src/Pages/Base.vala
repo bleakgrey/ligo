@@ -61,7 +61,7 @@ public class Ligo.Pages.Base : GLib.Object {
 		return page.get_site_root_url () + "/" + get_url ();
 	}
 	
-	public string get_site_root_url () { //TODO: This works but it's a mess and I'm ashamed of myself
+	public string get_site_root_url () {
 		var lvl = get_level ();
 		switch (lvl) {
 			case 1:

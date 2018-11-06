@@ -10,6 +10,10 @@ public class Ligo.IO {
 		return (string) data;
 	}
 	
+	public static bool remove_file (string path) {
+		return File.new_for_path (path).@delete ();
+	}
+	
 	public static Json.Object? read_json (string path) {
 		var contents = read_file (path);
 		var parser = new Json.Parser ();
@@ -33,7 +37,12 @@ public class Ligo.IO {
 	
 	public static void make_dir (string path) {
 		var dir = File.new_for_path (path);
-		dir.make_directory_with_parents ();
+		try {
+			dir.make_directory_with_parents ();
+		}
+		catch (Error e) {
+			//Who cares?
+		}
 	}
 	
 	

@@ -7,9 +7,21 @@
 <body>
     {{> header}}
     
-    {{#page.pagination.items}}
+	{{#page.prev_url}}
+        <p class="f5 f3-ns lh-copy measure georgia">
+            <a class="link no-underline f4 fw7 dib hover-{{theme.color}} black" href="{{page.prev_url}}">&lt; Previous Page</a>
+        </p>
+	{{/page.prev_url}}
+	
+	{{#page.next_url}}
+        <p class="f5 f3-ns lh-copy measure georgia">
+            <a class="link no-underline f4 fw7 dib hover-{{theme.color}} black" href="{{page.next_url}}">Next Page &gt;</a>
+        </p>
+	{{/page.next_url}}
+    
+    {{#page.items}}
     {{> paginated_article}}
-    {{/page.pagination.items}}
+    {{/page.items}}
     
     {{> footer}}
 </body>
