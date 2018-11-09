@@ -63,7 +63,7 @@ public class Ligo.Pages.Paginated : Pages.Base {
 			schema.set_member_name ("content");
 			schema.add_string_value (article.render_markdown ());
 			schema.set_member_name ("url");
-			schema.add_string_value (page.get_url ());
+			schema.add_string_value (page.get_relative_url (this));
 			schema.end_object ();
 			return true;
 		});
